@@ -1,10 +1,8 @@
 class MenuSubmenuConsola
 
     def main()
-
-                print "menu \n1. Ingresar y Registrarse 1 \n2. Preguntas 2  \n3. opcion 3 \nfavor ingresar opcion 1_2_3: ";
+                print "menu \n1. Ingresar y Registrarse 1 \n2. Preguntas 2 \nfavor ingresar opcion 1_2: ";
                 opcion = (gets.chomp).to_i
-
                 case opcion 
                     when 1
                         print "\n accedio al menu Ingresar y Registrarse\n";
@@ -24,7 +22,6 @@ class MenuSubmenuConsola
                                 else
                                     puts "Usuario o contraseña incorrectos"
                                 end
-
                             when 2
                                 #se dirige a la funcion 1.2 / registrarse
                                 print "\naccedio al submenu Registrarse "
@@ -49,26 +46,24 @@ class MenuSubmenuConsola
                         end
                     when 2
                         print "\n accedio al menu de Preguntas\n";
-                        print "sub menu\n2.1 Preguntas 1\n2.2 opcion 2\nfavor ingresar opcion 1_2: ";
+                        print "sub menu\n2.1 Preguntas 1\n2.2 opcion 2\nfavor ingresar opcion 1: ";
                         opcion = (gets.chomp).to_i
                         case opcion
                         when 1
                             #se dirige a la funcion 2.1 / aqui van las preguntas
-                            print "\naccedio al submenu 2.1"
-                            
-                        when 2
-                            #se dirige a la funcion 2.2 
-                            print "\naccedio al submenu 2.2"
+                            print "\naccedio al submenu de preguntas"
+                            if false #aqui va conexion con BDD
+                                puts "Preguntas" 
+                                Main(Usuario)
+                            else
+                                puts "Error en las Preguntas"
                         else
                             print "\nerror de opcion en el menu"
                         end
-                    when 3 
-                        print "\nmenu sin submenu"
                     else
                         print "\nerror de opcion de menu"
                 end
         end
 end
-
 obj = MenuSubmenuConsola.new
 obj.main()
