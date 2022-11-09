@@ -2,6 +2,8 @@ gem install dbi
 
 #para instalar el driver
 
+#gem install dbi
+
 #$ tar zxf dbi-0.2.0.tar.gz
 
 #$ ruby setup.rb config
@@ -17,7 +19,7 @@ require "dbi"
 
 begin
    # Comando para mysql
-   dbh = DBI.connect("DBI:Mysql:nombre de la bbdd:localhost", "usuario", "contraseña")
+   dbh = DBI.connect("DBI:Mysql:magallanes.inf.unap.cl:gpallero", "usuario", "contraseña")
    # para mostrar la version del servidor
    row = dbh.select_one("SELECT VERSION()")
    puts "Server version: " + row[0]
