@@ -5,9 +5,6 @@ class MenuSubmenuConsola
             opcion = (gets.chomp).to_i
             case opcion 
                 when 1
-                    print "\n accedio al menu Ingresar y Registrarse\n";
-                    print "sub menu\n1.1 Ingresar 1\n1.2 Registrarse 2\nfavor ingresar opcion 1_2: ";
-                    #se dirige a la funcion 1.1 / ingresar
                     print "\naccedio al submenu Ingresar "
                     puts "\nIngrese su nombre de usuario: "
                     nombre = gets.chomp
@@ -17,7 +14,8 @@ class MenuSubmenuConsola
                         puts "Bienvenido #{nombre}"
                         Main(Usuario)
                     else
-                        puts "Usuario o contraseña incorrectos"
+                        puts "Usuario o contraseña incorrectos, favor de reintentar"
+                        self.main
                     end
                 when 2
                     print "\naccedio al submenu Registrarse "
@@ -36,8 +34,10 @@ class MenuSubmenuConsola
                         Main(Usuario)
                     else
                         puts "Error al registrar usuario, favor de intentar de nuevo"
+                        self.main
                     end
-                    
+                when 3
+                    print "Saliendo..."
                 else
                     print "\nerror de opcion de menu"
             end
