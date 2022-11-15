@@ -1,8 +1,10 @@
 require "dbi"
 
+#acá sólo se realizará la conexión a la base de datos, para las  funciones vinculadas consultar "FuncionesBDD.rb"
+
 begin
-   # Comando para mysql
-   dbh = DBI.connect("DBI:Mysql:magallanes.inf.unap.cl:gpallero", "gpallero", "4Fdn2hSde")
+   # Comando para conectar a posgres
+   dbh = DBI.connect("DBI:ODBC:magallanes.inf.unap.cl:gpallero", "gpallero", "4Fdn2hSde")
    # para mostrar la version del servidor
    row = dbh.select_one("SELECT VERSION()")
    puts "Server version: " + row[0]
