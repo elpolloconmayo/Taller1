@@ -1,3 +1,5 @@
+
+
 class MenuSubmenuConsola
 
     def main()
@@ -39,9 +41,11 @@ class MenuSubmenuConsola
                 when 3
                     print "Saliendo..."
                 else
-                    print "\nerror de opcion de menu"
+                    print "\nerror de opcion de menu, reiniciando..."
+                    self.main
             end
         end
 end
+
 obj = MenuSubmenuConsola.new
 obj.main()
