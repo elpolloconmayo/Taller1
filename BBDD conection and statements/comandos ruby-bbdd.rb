@@ -1,19 +1,3 @@
-gem install dbi
-
-#para instalar el driver
-
-#
-
-#$ ruby setup.rb config
-
-#$ ruby setup.rb config --with = dbi,dbd_mysql
-
-#$ ruby setup.rb setup
-#$ ruby setup.rb install
-
-#para instalar el driver
-
-#para hacer consultas o modificar la bbdd con comandos sql
 dbh.do("Consulta sql") 
 
 sth = dbh.prepare( "INSERT INTO nombre de la tabla(att1, att2, att3, att4, att5)
