@@ -3,7 +3,7 @@
 class MenuSubmenuConsola
 
     #posible aplicacion a futuro
-    Characters Usuario
+    Characters usuario
     Characters contraseña
 
     def main()
@@ -67,8 +67,43 @@ class MenuSubmenuConsola
         end
     end
 
-end
+    def MenuPaciente(usuario, contraseña)
+        print "MENU \n1. Ingresar paciente 1 \n2. Modificar paciente 2 \n3. Eliminar paciente 3 \n4. Salir 4 \nfavor ingresar opcion 1_2_3_4: ";
+        opcion = (gets.chomp).to_i
+        case opcion
+        when 1
+            #aqui va la funcion de ingresar paciente
+        when 2
+            #aqui va la funcion de modificar paciente
+        when 3
+            #aqui va la funcion de eliminar paciente
+        when 4
+            print "Saliendo..."
+        else
+            print "\nerror de opcion de menu, reiniciando..."
+            self.MenuPaciente(usuario, contraseña)
+        end
+    end
 
+    def MenuEncuesta(usuario, contraseña)
+        print "MENU \n1. Ingresar encuesta 1 \n2. Modificar encuesta 2 \n3. Eliminar encuesta 3 \n4. Salir 4 \nfavor ingresar opcion 1_2_3_4: ";
+        opcion = (gets.chomp).to_i
+        case opcion
+        when 1
+            #aqui va la funcion de ingresar encuesta
+        when 2
+            #aqui va la funcion de modificar encuesta
+        when 3
+            #aqui va la funcion de eliminar encuesta
+        when 4
+            print "Saliendo..."
+        else
+            print "\nerror de opcion de menu, reiniciando..."
+            self.MenuEncuesta(usuario, contraseña)
+        end
+    end
+
+end
 
 
 obj = MenuSubmenuConsola.new
