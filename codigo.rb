@@ -1,4 +1,4 @@
-
+require 'BBDD conection and statements\connect.rb'
 
 class MenuSubmenuConsola
 
@@ -35,7 +35,7 @@ class MenuSubmenuConsola
             puts "Ingrese su apellido paterno"
             apellido_p = gets.chomp
             puts "Ingrese su correo"
-            email = gets.chomp.to_i
+            email = gets.chomp
             puts "Ingrese su contraseña"
             contraseña = gets.chomp
             if false #aqui va conexion con BDD
@@ -74,7 +74,17 @@ class MenuSubmenuConsola
         opcion = (gets.chomp).to_i
         case opcion
         when 1
-            #aqui va la funcion de ingresar paciente
+            puts 'ingrese rut con digito verificador:'
+            run = gets.chomp
+            puts 'Ingrese el nombre del encuestado:'
+            nombre_pat = gets.chomp
+            puts "Ingrese su apellido materno"
+            apellido_mp = gets.chomp
+            puts "Ingrese su apellido paterno"
+            apellido_pp = gets.chomp
+
+            
+
         when 2
             #aqui va la funcion de modificar paciente
         when 3
