@@ -76,7 +76,7 @@ class MenuSubmenuConsola
         opcion = (gets.chomp).to_i
         case opcion
         when 1
-            puts 'ingrese rut con digito verificador:'
+            puts 'ingrese rut con digito verificador (de no tener rut dejar en blanco):'
             run = gets.chomp
             dv = run[8]
             run = run[0,8].to_i
@@ -86,6 +86,11 @@ class MenuSubmenuConsola
             apellido_mp = gets.chomp
             puts "Ingrese su apellido paterno"
             apellido_pp = gets.chomp
+
+            if run == '':
+                run = NULL
+                dv = NULL
+
             cnxn.exec("INSERT INTO surveyeds (run, dv, name, mother_sname, father_sname) VALUES ( #{run} , '#{dv}' , '#{nombre_pat}' , '#{apellido_mp}' , '#{apellido_pp}')")
 
         when 2
