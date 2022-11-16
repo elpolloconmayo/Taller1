@@ -26,14 +26,16 @@ class MenuSubmenuConsola
         when 2
             #cambiar a futuro por una funcion que reconozca los atributos de la bdd y los pida por consola
             print "\naccedio al submenu Registrarse "
+            puts'ingrese un nombre de usuario'
+            nombre_usu = gets.chomp
             puts "\nIngrese su nombre"
             nombre = gets.chomp
-            puts "Ingrese su primer apellido"
-            apellido = gets.chomp
-            puts "Ingrese su segundo apellido"
-            apellido2 = gets.chomp
+            puts "Ingrese su apellido materno"
+            apellido_m = gets.chomp
+            puts "Ingrese su apellido paterno"
+            apellido_p = gets.chomp
             puts "Ingrese su correo"
-            edad = gets.chomp.to_i
+            email = gets.chomp.to_i
             puts "Ingrese su contraseña"
             contraseña = gets.chomp
             if false #aqui va conexion con BDD
