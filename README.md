@@ -14,12 +14,12 @@ Da un ejemplo
 
 ### Instalación
 
-_Una serie de ejemplos paso a paso que te dice lo que debes ejecutar para tener un entorno de desarrollo ejecutandose_
+_El sistema funciona en base a ruby que debera de instalarse en el sitio oficial "https://www.ruby-lang.org/es/" , para el correcto funcionamiento requerimos realizar la siguiente instalación_
 
-_Dí cómo será ese paso_
+_Se realiza en consola_
 
 ```
-Da un ejemplo
+gem install pg
 ```
 
 _Y repite_
