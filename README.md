@@ -1,4 +1,4 @@
-# Simple survey sistem for depression (3SD)
+# Simple survey system for depression (3SD)
 
 _Es un sistema en el cual se permitira la creacion de un test de N preguntas dependiendo de lo que considere correcto el profesional que esta a cargo de la encuesta en cuestion._
 
@@ -6,7 +6,7 @@ _Es un sistema en el cual se permitira la creacion de un test de N preguntas dep
 
 ### Pre-requisitos
 
-_Que cosas necesitas para instalar el software y como instalarlas_
+_Sistema operativo windows 10 u 11, debemos instalar ruby en "https://www.ruby-lang.org/es/"_
 
 ```
 Da un ejemplo
@@ -14,12 +14,12 @@ Da un ejemplo
 
 ### Instalación
 
-_Una serie de ejemplos paso a paso que te dice lo que debes ejecutar para tener un entorno de desarrollo ejecutandose_
+_Para el correcto funcionamiento de conexion a base de datos requerimos realizar la siguiente instalación_
 
-_Dí cómo será ese paso_
+_Se realiza en consola_
 
 ```
-Da un ejemplo
+gem install pg
 ```
 
 _Y repite_
