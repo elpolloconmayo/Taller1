@@ -4,7 +4,7 @@ DROP TABLE IF EXISTS `profetionals`;
 CREATE TABLE `profetionals` (
   `id` serial NOT NULL,
   `run` int DEFAULT NULL,
-  `dv` char(1),
+  `dv` char(1) DEFAULT NULL,
   `name` varchar(255) NOT NULL,
   `mother_sname` varchar(255) NOT NULL,
   `father_sname` varchar(255) NOT NULL,
