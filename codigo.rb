@@ -38,7 +38,7 @@ class MenuSubmenuConsola
             contraseña = gets.chomp
             if false #aqui va conexion con BDD
                 puts "Usuario registrado" 
-                Main(Usuario)
+                MenuPuente(nombre, contraseña)
             else
                 puts "Error al registrar usuario, favor de intentar de nuevo"
                 self.main
