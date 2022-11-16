@@ -73,4 +73,4 @@ También puedes mirar la lista de todos los [contribuyentes](https://github.com/
 
 ## Licencia
 
-_Este proyecto está bajo la Licencia (Proyecto) - mira el archivo [LICENSE.md](LICENSE.md) para detalles_
+_Este proyecto está bajo la Licencia (Proyecto) - mira el archivo [LICENSE](LICENSE) para detalles_
