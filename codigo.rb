@@ -78,18 +78,19 @@ class MenuSubmenuConsola
         when 1
             puts 'ingrese rut con digito verificador (de no tener rut dejar en blanco):'
             run = gets.chomp
-            dv = run[8]
-            run = run[0,8].to_i
+            if run == ''
+                run = NULL
+                dv = NULL
+            else    
+                dv = run[8]
+                run = run[0,8].to_i
+            end       
             puts 'Ingrese el nombre del encuestado:'
             nombre_pat = gets.chomp
             puts "Ingrese su apellido materno"
             apellido_mp = gets.chomp
             puts "Ingrese su apellido paterno"
             apellido_pp = gets.chomp
-
-            if run == '':
-                run = NULL
-                dv = NULL
 
             cnxn.exec("INSERT INTO surveyeds (run, dv, name, mother_sname, father_sname) VALUES ( #{run} , '#{dv}' , '#{nombre_pat}' , '#{apellido_mp}' , '#{apellido_pp}')")
 
