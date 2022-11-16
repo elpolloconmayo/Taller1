@@ -56,7 +56,7 @@ _Agrega notas adicionales sobre como hacer deploy_
 
 ## Construido con
 
-_Codigo ruby mediante el editor de texto VisualStudioCode +  Dveaber para la gestion y creacion de la base de datos_
+_Codigo ruby mediante el editor de texto [VisualStudioCode](https://code.visualstudio.com/download) +  [DBeaver](https://dbeaver.io/download/) para la gestion y creacion de la base de datos_
 
 ## Contribuyendo
 
