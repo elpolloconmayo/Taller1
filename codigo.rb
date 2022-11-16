@@ -3,8 +3,8 @@
 class MenuSubmenuConsola
 
     #posible aplicacion a futuro
-    Characters usuario
-    Characters contraseña
+    #Characters usuario
+    #Characters contraseña
 
     def main()
         print "MENU \n1. Ingresar 1 \n2. Registrarse 2 \n3. Salir 3 \nfavor ingresar opcion 1_2_3: ";
