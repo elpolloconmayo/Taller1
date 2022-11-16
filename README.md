@@ -56,7 +56,7 @@ _Agrega notas adicionales sobre como hacer deploy_
 
 ## Construido con
 
-_Menciona las herramientas que utilizaste para crear tu proyecto_
+_Codigo ruby mediante el editor de texto VisualStudioCode +  Dveaber para la gestion y creacion de la base de datos_
 
 ## Contribuyendo
 
@@ -66,8 +66,8 @@ _Menciona las herramientas que utilizaste para crear tu proyecto_
 
 ## Autores
 
-_Menciona a todos aquellos que ayudaron a levantar el proyecto desde sus inicios_
+_Se puede ver a los contribuyentes:_
 
-También puedes mirar la lista de todos los [contribuyentes](https://github.com/your/project/contributors) quíenes han participado en este proyecto. 
+También puedes mirar la lista de todos los [contribuyentes](https://github.com/elpolloconmayo/Taller1/graphs/contributors) quíenes han participado en este proyecto. 
 
 ## Licencia
