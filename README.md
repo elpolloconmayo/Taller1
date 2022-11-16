@@ -72,3 +72,5 @@ _Se puede ver a los contribuyentes:_
 También puedes mirar la lista de todos los [contribuyentes](https://github.com/elpolloconmayo/Taller1/graphs/contributors) quíenes han participado en este proyecto. 
 
 ## Licencia
+
+_Este proyecto está bajo la Licencia (Proyecto) - mira el archivo [LICENSE.md](LICENSE.md) para detalles_
