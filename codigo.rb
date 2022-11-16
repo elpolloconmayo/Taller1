@@ -1,5 +1,7 @@
 require 'BBDD conection and statements\connect.rb'
 
+cnxn = PG.connect(host: 'magallanes.inf.unap.cl', dbname: 'gpallero', user: 'gpallero',password: '4Fd3n2hSde')
+
 class MenuSubmenuConsola
 
     #posible aplicacion a futuro
@@ -76,14 +78,15 @@ class MenuSubmenuConsola
         when 1
             puts 'ingrese rut con digito verificador:'
             run = gets.chomp
+            dv = run[8]
+            run = run[0,8].to_i
             puts 'Ingrese el nombre del encuestado:'
             nombre_pat = gets.chomp
             puts "Ingrese su apellido materno"
             apellido_mp = gets.chomp
             puts "Ingrese su apellido paterno"
             apellido_pp = gets.chomp
-
-            
+            cnxn.exec("INSERT INTO surveyeds (run, dv, name, mother_sname, father_sname) VALUES ( #{run} , '#{dv}' , '#{nombre_pat}' , '#{apellido_mp}' , '#{apellido_pp}')")
 
         when 2
             #aqui va la funcion de modificar paciente
