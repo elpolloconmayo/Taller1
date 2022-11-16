@@ -56,8 +56,9 @@ _Agrega notas adicionales sobre como hacer deploy_
 
 ## Construido con
 
-_Codigo ruby mediante el editor de texto VisualStudioCode +  Dveaber para la gestion y creacion de la base de datos_
-
+* [VisualStudioCode](https://code.visualstudio.com/download) - El editor de texto usado
+* [DBeaver](https://dbeaver.io/download/) - Para la gestion y creacion de la base de datos
+* [Ruby](https://www.ruby-lang.org/es/downloads/) - El lenguaje usado en el proyecto
 ## Contribuyendo
 
 ## Wiki 
@@ -71,3 +72,5 @@ _Se puede ver a los contribuyentes:_
 También puedes mirar la lista de todos los [contribuyentes](https://github.com/elpolloconmayo/Taller1/graphs/contributors) quíenes han participado en este proyecto. 
 
 ## Licencia
+
+_Este proyecto está bajo la Licencia (Proyecto) - mira el archivo [LICENSE](LICENSE) para detalles_
