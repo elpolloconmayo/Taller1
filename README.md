@@ -6,7 +6,7 @@ _Es un sistema en el cual se permitira la creacion de un test de N preguntas dep
 
 ### Pre-requisitos
 
-_Que cosas necesitas para instalar el software y como instalarlas_
+_Sistema operativo windows 10 u 11, debemos instalar ruby en "https://www.ruby-lang.org/es/"_
 
 ```
 Da un ejemplo
@@ -14,7 +14,7 @@ Da un ejemplo
 
 ### Instalación
 
-_El sistema funciona en base a ruby que debera de instalarse en el sitio oficial "https://www.ruby-lang.org/es/" , para el correcto funcionamiento requerimos realizar la siguiente instalación_
+_Para el correcto funcionamiento de conexion a base de datos requerimos realizar la siguiente instalación_
 
 _Se realiza en consola_
 
