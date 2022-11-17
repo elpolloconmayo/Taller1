@@ -1,6 +1,5 @@
 DROP TABLE IF EXISTS tests;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+
 CREATE TABLE tests (
   id serial NOT NULL,
   name varchar(255) DEFAULT NULL,
@@ -9,5 +8,5 @@ CREATE TABLE tests (
   prof_observation varchar(255) DEFAULT NULL,
   deleted_at timestamp with time zone DEFAULT NULL,
   PRIMARY KEY (id),
-  UNIQUE KEY id_UNIQUE (id)
+  UNIQUE (id)
 )
