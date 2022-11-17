@@ -7,7 +7,7 @@ CREATE TABLE `tests` (
   `cut_point` int NOT NULL,
   `max_point` int NOT NULL,
   `prof_observation` varchar(255) DEFAULT NULL,
-  `deleted_at` interval DEFAULT NULL,
+  `deleted_at` timestamp with time zone DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
 )

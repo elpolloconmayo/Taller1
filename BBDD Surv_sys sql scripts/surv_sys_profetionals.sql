@@ -11,6 +11,6 @@ CREATE TABLE `profetionals` (
   `email` varchar(255) NOT NULL,
   `mother_sname` varchar(255) NOT NULL,
   `father_sname` varchar(255) NOT NULL,
-  `deleted_at` interval DEFAULT NULL,
+  `deleted_at` timestamp with time zone DEFAULT NULL,
   PRIMARY KEY (`id`)
 )

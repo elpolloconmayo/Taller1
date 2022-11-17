@@ -5,7 +5,7 @@ CREATE TABLE `questions` (
   `id` serial NOT NULL,
   `question` varchar(255) NOT NULL,
   `description` varchar(255) DEFAULT NULL,
-  `deleted_at` interval DEFAULT NULL,
+  `deleted_at` timestamp with time zone DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   CONSTRAINT `Tests_id` FOREIGN KEY (`id`) REFERENCES `tests` (`id`)
