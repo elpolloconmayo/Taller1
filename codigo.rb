@@ -76,7 +76,8 @@ class MenuSubmenuConsola
         opcion = (gets.chomp).to_i
         case opcion
         when 1
-            puts 'ingrese rut con digito verificador (de no tener rut dejar en blanco):'
+            printf 'Ingrese los siguientes datos del encuestado:'
+            puts 'rut con digito verificador (de no tener rut dejar en blanco):'
             run = gets.chomp
             if run == ''
                 run = NULL
@@ -85,17 +86,52 @@ class MenuSubmenuConsola
                 dv = run[8]
                 run = run[0,8].to_i
             end       
-            puts 'Ingrese el nombre del encuestado:'
+            puts 'Nombre:'
             nombre_pat = gets.chomp
-            puts "Ingrese su apellido materno"
+            puts "Apellido materno:"
             apellido_mp = gets.chomp
-            puts "Ingrese su apellido paterno"
+            puts "Apellido paterno:"
             apellido_pp = gets.chomp
 
             cnxn.exec("INSERT INTO surveyeds (run, dv, name, mother_sname, father_sname) VALUES ( #{run} , '#{dv}' , '#{nombre_pat}' , '#{apellido_mp}' , '#{apellido_pp}')")
 
         when 2
-            #aqui va la funcion de modificar paciente
+
+            printf 'Ingrese los siguientes datos del paciente a modificar: '
+            puts 'Nombre'
+            cndn = gets.chomp
+            puts 'Apellido materno'
+            cnam = gets.chomp
+            puts 'Apellido paterno'
+            cnap = gets.chomp
+
+            cond = cnxn.exec("SELECT (id) FROM profetionals WHERE name = #{cndn} AND mother_sname = #{cnam} AND father_sname = #{cnap}")
+            key , value = cond.first
+            value = value.to_i
+            printf 'Ingrese los datos a modificar (de no querer modificarlos dejar en blanco):'
+            puts 'Rut:'
+            nrut = gets.chomp
+            if nrut != ''
+                nwdv = nrut[8]
+                nrut = nrut[0,8].to_i
+                cnxn.exec("UPDATE surveyeds SET run = #{nrut}, dv = #{nwdv} WHERE id = #{value};")
+            end    
+            puts 'Nombre:'
+            nnam = gets.chomp
+            if nnam != ''
+                cnxn.exec("UPDATE surveyeds SET name = #{nrut} WHERE id = #{value};")
+            end    
+            puts 'Apellido materno:'
+            nmsn = gets.chomp
+            if nmsn != ''
+                cnxn.exec("UPDATE surveyeds SET mother_sname = #{nrut} WHERE id = #{value};")
+            end    
+            puts 'Apellido paterno:'
+            nfsn = gets.chomp
+            if nfsn != ''
+                cnxn.exec("UPDATE surveyeds SET father_sname = #{nfsn} WHERE id = #{value};")
+            end    
+
         when 3
             #aqui va la funcion de eliminar paciente
         when 4
