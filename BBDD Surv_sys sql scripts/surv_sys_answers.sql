@@ -6,7 +6,7 @@ CREATE TABLE `answers` (
   `points` int NOT NULL,
   `text` varchar(255) DEFAULT NULL,
   `prof_observation` varchar(255) DEFAULT NULL,
-  `deleted_at` interval DEFAULT NULL,
+  `deleted_at` timestamp with time zone DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   CONSTRAINT `QUESTIONS_id` FOREIGN KEY (`id`) REFERENCES `questions` (`id`)
