@@ -1,4 +1,6 @@
 require 'date'
+require 'PG'
+
 
 cnxn = PG.connect(host: 'magallanes.inf.unap.cl', dbname: 'gpallero', user: 'gpallero',password: '4Fd3n2hSde')
 
@@ -18,9 +20,11 @@ class MenuSubmenuConsola
             nombre = gets.chomp
             puts "Ingrese su contraseña: "
             contraseña = gets.chomp
+            puts cnxn.exec("SELECT * FROM users WHERE name = '#{nombre}' AND password = '#{contraseña}'")
+
             if false #aqui va conexion con BDD
                 puts "Bienvenido #{nombre}"
-                MenuPuente(nombre, contraseña)
+                self.MenuPuente(nombre, contraseña)
             else
                 puts "Usuario o contraseña incorrectos, favor de reintentar"
                 self.main
@@ -105,7 +109,7 @@ class MenuSubmenuConsola
             printf 'Dispone de la id del encuestado a modificar? Y/N'
             des = gets.chomp
             if des = 'Y' || des = 'y':
-                
+
                 puts 'Ingrese el id:'
                 cnid = gets.chomp
 
