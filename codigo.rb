@@ -1,4 +1,4 @@
-require 'BBDD conection and statements\connect.rb'
+require 'date'
 
 cnxn = PG.connect(host: 'magallanes.inf.unap.cl', dbname: 'gpallero', user: 'gpallero',password: '4Fd3n2hSde')
 
@@ -76,9 +76,11 @@ class MenuSubmenuConsola
         opcion = (gets.chomp).to_i
         case opcion
         when 1
+
             printf 'Ingrese los siguientes datos del encuestado:'
             puts 'rut con digito verificador (de no tener rut dejar en blanco):'
             run = gets.chomp
+
             if run == ''
                 run = NULL
                 dv = NULL
@@ -86,10 +88,13 @@ class MenuSubmenuConsola
                 dv = run[8]
                 run = run[0,8].to_i
             end       
+
             puts 'Nombre:'
             nombre_pat = gets.chomp
+
             puts "Apellido materno:"
             apellido_mp = gets.chomp
+
             puts "Apellido paterno:"
             apellido_pp = gets.chomp
 
@@ -97,43 +102,84 @@ class MenuSubmenuConsola
 
         when 2
 
-            printf 'Ingrese los siguientes datos del paciente a modificar: '
-            puts 'Nombre'
-            cndn = gets.chomp
-            puts 'Apellido materno'
-            cnam = gets.chomp
-            puts 'Apellido paterno'
-            cnap = gets.chomp
+            printf 'Dispone de la id del encuestado a modificar? Y/N'
+            des = gets.chomp
+            if des = 'Y' || des = 'y':
+                
+                puts 'Ingrese el id:'
+                cnid = gets.chomp
 
-            cond = cnxn.exec("SELECT (id) FROM profetionals WHERE name = #{cndn} AND mother_sname = #{cnam} AND father_sname = #{cnap}")
-            key , value = cond.first
-            value = value.to_i
+            else    
+                puts 'Nombre'
+                cndn = gets.chomp
+                puts 'Apellido materno'
+                cnam = gets.chomp
+                puts 'Apellido paterno'
+                cnap = gets.chomp
+
+                cond = cnxn.exec("SELECT (id) FROM profetionals WHERE name = #{cndn} AND mother_sname = #{cnam} AND father_sname = #{cnap}")
+                key , value = cond.first
+                value = value.to_i
+                cnid = value
+
+            end
+
             printf 'Ingrese los datos a modificar (de no querer modificarlos dejar en blanco):'
+
             puts 'Rut:'
             nrut = gets.chomp
+
             if nrut != ''
                 nwdv = nrut[8]
                 nrut = nrut[0,8].to_i
                 cnxn.exec("UPDATE surveyeds SET run = #{nrut}, dv = #{nwdv} WHERE id = #{value};")
-            end    
+            end   
+
             puts 'Nombre:'
             nnam = gets.chomp
+
             if nnam != ''
                 cnxn.exec("UPDATE surveyeds SET name = #{nrut} WHERE id = #{value};")
-            end    
+            end   
+
             puts 'Apellido materno:'
             nmsn = gets.chomp
+
             if nmsn != ''
                 cnxn.exec("UPDATE surveyeds SET mother_sname = #{nrut} WHERE id = #{value};")
             end    
+
             puts 'Apellido paterno:'
             nfsn = gets.chomp
+
             if nfsn != ''
-                cnxn.exec("UPDATE surveyeds SET father_sname = #{nfsn} WHERE id = #{value};")
+                cnxn.exec("UPDATE surveyeds SET father_sname = #{nfsn} WHERE id = #{cnid};")
             end    
 
         when 3
-            #aqui va la funcion de eliminar paciente
+            puts 'Conoce el id del encuestado a eliminar? Y/N'
+            des = gets.chomp
+            if des == 'Y' || des == 'y'
+                puts 'Porfavor ingrese el id del encuestado:'
+                deid = gets.chomp
+                detm = Time.now
+
+                cnxn.exec("UPDATE surveyeds deleted_at = #{detm} WHERE id = #{deid}")
+
+            else
+                puts 'Si no recuerda el id ingrese los siguientes datos:'
+
+                puts 'Nombre'
+                cndn = gets.chomp
+                puts 'Apellido materno'
+                cnam = gets.chomp
+                puts 'Apellido paterno'
+                cnap = gets.chomp
+                detm = Time.now
+
+                cnxn.exec("UPDATE surveyeds deleted_at = #{detm} WHERE name = #{cndn} AND mother_sname = #{cnam} AND father_sname = #{cnap}")
+            end
+
         when 4
             print "Saliendo..."
         else
