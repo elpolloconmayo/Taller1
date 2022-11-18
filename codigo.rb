@@ -76,7 +76,7 @@ class MenuSubmenuConsola
     end
 
     def MenuPaciente(usuario, contraseña)
-        print "MENU \n1. Ingresar paciente 1 \n2. Modificar paciente 2 \n3. Eliminar paciente 3 \n4. Salir 4 \nfavor ingresar opcion 1_2_3_4: ";
+        print "MENU \n1. Ingresar paciente 1 \n2. Modificar paciente 2 \n3. Realizar encuesta 3 \n4. Eliminar paciente 4 \n5. Salir 4 \nfavor ingresar opcion 1_2_3_4: ";
         opcion = (gets.chomp).to_i
         case opcion
         when 1
@@ -159,8 +159,23 @@ class MenuSubmenuConsola
             if nfsn != ''
                 cnxn.exec("UPDATE surveyeds SET father_sname = #{nfsn} WHERE id = #{cnid};")
             end    
-
+        
         when 3
+            printf 'Dispone de la id del encuestado a realizar encuesta? Y/N'
+            des = gets.chomp
+            if des = 'Y' || des = 'y':
+                printf 'Ingrese el id:'
+                cnid = gets.chomp
+            else
+                printf 'Favor de ingresar el nombre: '
+                cndn = gets.chomp
+                printf 'Favor de ingresar el apellido paterno: '
+                cnap = gets.chomp
+                printf 'Favor de ingresar el apellido materno: '
+                cnam = gets.chomp
+
+        
+        when 4
             puts 'Conoce el id del encuestado a eliminar? Y/N'
             des = gets.chomp
             if des == 'Y' || des == 'y'
@@ -184,7 +199,7 @@ class MenuSubmenuConsola
                 cnxn.exec("UPDATE surveyeds deleted_at = #{detm} WHERE name = #{cndn} AND mother_sname = #{cnam} AND father_sname = #{cnap}")
             end
 
-        when 4
+        when 5
             print "Saliendo..."
         else
             print "\nerror de opcion de menu, reiniciando..."
