@@ -10,5 +10,5 @@ CREATE TABLE questions (
   deleted_at timestamp with time zone DEFAULT NULL,
   PRIMARY KEY (id),
   UNIQUE (id),
-  CONSTRAINT Tests_id FOREIGN KEY (id) REFERENCES tests (id)
+  CONSTRAINT PROFESSIONALS_id FOREIGN KEY (id) REFERENCES PROFESSIONALS_id (id)
 )

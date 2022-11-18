@@ -173,6 +173,16 @@ class MenuSubmenuConsola
                 cnap = gets.chomp
                 printf 'Favor de ingresar el apellido materno: '
                 cnam = gets.chomp
+            printf "dispone de la id de la encuesta a realizar? Y/N"
+            des = gets.chomp
+            if des = 'Y' || des = 'y':
+                printf 'Ingrese el id:'
+                cnide = gets.chomp
+            else
+                printf 'Favor de ingresar el nombre de la encuesta: '
+                cndne = gets.chomp
+            #realizar encuesta
+
 
         
         when 4
