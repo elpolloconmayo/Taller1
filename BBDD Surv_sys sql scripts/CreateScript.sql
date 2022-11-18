@@ -1,6 +1,0 @@
-CREATE TABLE SURVEYEDS (id int IDENTIY(1,1) PRIMARY KEY, run int, dv char, names varchar(255), mother_sname varchar(255), father_sname varchar(255),surveyed_by varchar(255),deleted_at varchar(255))
-CREATE TABLE PROFETIONALS (id int IDENTIY(1,1) PRIMARY KEY,run int, dv char, names varchar(255), mother_sname varchar(255), father_sname varchar(255),deleted_at varchar(255))
-CREATE TABLE TESTS (id int IDENTIY(1,1) PRIMARY KEY, NAME varchar(255), cut_point int, max_point int, observation varchar(255)deleted_at varchar(255))
-CREATE TABLE QUESTIONS (id int IDENTIY(1,1) PRIMARY KEY, TESTS_id FOREIGN KEY, question varchar(255), description varchar(255), deleted_at varchar(255))
-CREATE TABLE ANSWERS (id int IDENTIY(1,1) PRIMARY KEY, QUESTIONS_id FOREIGN KEY, points int , text varchar(255), observation varchar(255),deleted_at varchar(255))
-CREATE TABLE POLLS (id int IDENTIY(1,1) PRIMARY KEY, USERS_id FOREIGN KEY, QUESTIONS_id FOREIGN KEY, ANSWERS_id FOREIGN KEY,deleted_at varchar(255))
