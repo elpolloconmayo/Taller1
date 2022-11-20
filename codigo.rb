@@ -211,13 +211,14 @@ class MenuSubmenuConsola
             end    
 
             cond = cnxn.exec("SELECT (n_question) FROM questions WHERE id = #{cnide}")
-            nqut = cond.values[0].to_s
-            nqut = nqut[2].to_i
+            nqut = cond.values[0]
+            nqut = nqut[0].to_i
 
             count = 0
 
             r = cnxn.exec("SELECT (question) FROM questions Where id = 1")
             qsts = imprimirsql(r)
+            ftex = ''
 
             while count != nqut
 
@@ -225,11 +226,15 @@ class MenuSubmenuConsola
                 puts 'ingrese su respuesta:'
                 resp = gets.chomp
 
-                
+                ftex = ftex + '\n' + resp
 
                 count = count + 1
 
             end
+
+            ftex = ftex.sub('\n','')
+
+            cnxn.exec("INSERT INTO answers(answer, point, surveyeds_id, professionals_id, questions_id) VALUES('#{ftex}','100',#{cnid},1,#{cnide})")
 
         when 4
             puts 'Conoce el id del encuestado a eliminar? Y/N'
