@@ -51,22 +51,45 @@ class MenuSubmenuConsola
             
         when 2
             #cambiar a futuro por una funcion que reconozca los atributos de la bdd y los pida por consola
-            print "\naccedio al submenu Registrarse "
+            print "\naccedio al submenu Registrarse\n"
+            puts 'rut con digito verificador (de no tener rut dejar en blanco):'
+            run = gets.chomp
+            if run == ''
+                run = NULL
+                dv = NULL
+            else    
+                dv = run[8]
+                run = run[0,8].to_i
+            end
             puts'ingrese un nombre de usuario'
             nombre_usu = gets.chomp
             puts "\nIngrese su nombre"
-            nombre = gets.chomp
-            puts "Ingrese su apellido materno"
-            apellido_m = gets.chomp
+            name = gets.chomp
             puts "Ingrese su apellido paterno"
             apellido_p = gets.chomp
+            puts "Ingrese su apellido materno"
+            apellido_m = gets.chomp
+            puts "Ingrese su genero (M/F/N)"
+            genero = gets.chomp
             puts "Ingrese su correo"
             email = gets.chomp
             puts "Ingrese su contraseña"
             contraseña = gets.chomp
+            puts "Ingrese su fecha de nacimiento (19XX-XX-XX)"
+            fecha_nac = gets.chomp
+            puts "Ingrese su numero de telefono"
+            telefono = gets.chomp
+
+            begin
+                $cnxn.exec("INSERT INTO PROFESSIONALS (run, dv, name_, username, pass, email, mother_name, father_name, gender, birthday, cellphone) VALUES (#{rut} , '#{dv}', '#{name}', '#{nombre_usu}', '#{contraseña}', '#{email}', '#{apellido_m}', '#{apellido_p}', '#{genero}', '#{fecha_nac}', '#{telefono}')")
+            rescue
+                puts "Error en ingreso de datos, favor de intentar de nuevo"
+                self.menu()
+            end
+
             if false #aqui va conexion con BDD
                 puts "Usuario registrado" 
-                MenuPuente()
+                self.MenuPuente()
             else
                 puts "Error al registrar usuario, favor de intentar de nuevo"
                 self.main
@@ -85,10 +108,10 @@ class MenuSubmenuConsola
         case opcion
         when 1
             puts "accedio al submenu Gestión de pacientes"
-            MenuPaciente()
+            self.MenuPaciente()
         when 2
             puts "accedio al submenu Gestión de Encuestas"
-            MenuEncuesta()
+            self.MenuEncuesta()
         else
             print "\nerror de opcion de menu, reiniciando..."
             self.MenuPuente()
@@ -102,27 +125,34 @@ class MenuSubmenuConsola
         when 1
 
             printf 'Ingrese los siguientes datos del encuestado:'
-            puts 'rut con digito verificador (de no tener rut dejar en blanco):'
+            pputs 'rut con digito verificador (de no tener rut dejar en blanco):'
             run = gets.chomp
-
             if run == ''
                 run = NULL
                 dv = NULL
             else    
                 dv = run[8]
                 run = run[0,8].to_i
-            end       
+            end
+            puts "\nIngrese su nombre"
+            name = gets.chomp
+            puts "Ingrese su apellido paterno"
+            apellido_p = gets.chomp
+            puts "Ingrese su apellido materno"
+            apellido_m = gets.chomp
+            puts "Ingrese su genero (M/F/N)"
+            genero = gets.chomp
+            puts "Ingrese su correo"
+            email = gets.chomp
+            puts "Ingrese su fecha de nacimiento (19XX-XX-XX)"
+            fecha_nac = gets.chomp
 
-            puts 'Nombre:'
-            nombre_pat = gets.chomp
-
-            puts "Apellido materno:"
-            apellido_mp = gets.chomp
-
-            puts "Apellido paterno:"
-            apellido_pp = gets.chomp
-
-            $cnxn.exec("INSERT INTO surveyeds (run, dv, name, mother_sname, father_sname) textosql ( #{run} , '#{dv}' , '#{nombre_pat}' , '#{apellido_mp}' , '#{apellido_pp}')")
+            begin
+                $cnxn.exec("INSERT INTO surveyeds (run, dv, name, father_name, mother_name, gender, birthday, mail) values ( #{run} , '#{dv}', '#{name}', '#{apellido_p}', '#{apellido_m}', '#{genero}', '#{email}', '#{fecha_nac}')")
+            rescue
+                puts "Error en ingreso de datos, favor de intentar de nuevo"
+                self.MenuPaciente()
+            end
 
         when 2
 
