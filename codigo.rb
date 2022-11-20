@@ -11,11 +11,21 @@ def imprimirsql(textosql)
     textosql = textosql.sub(']','')
     textosql = textosql.sub('"','')
     textosql = textosql.sub('"','')
+    return textosql.split('\n')
+
+end
+
+def imprimirsql1(textosql)
+    textosql = textosql.values[0]
+    textosql = textosql.to_s
+    textosql = textosql.sub('[','')
+    textosql = textosql.sub(']','')
+    textosql = textosql.sub('"','')
+    textosql = textosql.sub('"','')
     textosql = textosql.sub('\\\\','/')
     return textosql.split('/n')
 
 end
-
 
 class MenuSubmenuConsola
 
