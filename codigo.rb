@@ -73,7 +73,7 @@ class MenuSubmenuConsola
             email = gets.chomp
             puts "Ingrese su contraseña"
             contraseña = gets.chomp
-            puts "Ingrese su fecha de nacimiento (19XX-XX-XX)"
+            puts "Ingrese su fecha de nacimiento (YYYY-MM-DD)"
             fecha_nac = gets.chomp
             puts "Ingrese su numero de telefono"
             telefono = gets.chomp
