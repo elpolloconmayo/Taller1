@@ -49,10 +49,15 @@ class MenuSubmenuConsola
         when 2
             #cambiar a futuro por una funcion que reconozca los atributos de la bdd y los pida por consola
             print "\naccedio al submenu Registrarse\n"
-            puts "Ingrese su rut sin digito verificador"
-            rut = gets.chomp.to_i
-            puts "Ingrese su digito verificador"
-            dv = gets.chomp
+            puts 'rut con digito verificador (de no tener rut dejar en blanco):'
+            run = gets.chomp
+            if run == ''
+                run = NULL
+                dv = NULL
+            else    
+                dv = run[8]
+                run = run[0,8].to_i
+            end
             puts'ingrese un nombre de usuario'
             nombre_usu = gets.chomp
             puts "\nIngrese su nombre"
