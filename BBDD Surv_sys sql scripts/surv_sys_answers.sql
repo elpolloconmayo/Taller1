@@ -8,7 +8,7 @@ CREATE TABLE answers (
   deleted_at timestamp with time zone DEFAULT NULL,
   PRIMARY KEY (id),
   UNIQUE (id),
-  CONSTRAINT SURVEYEDS_id FOREIGN KEY (id) REFERENCES surveyeds (id),
-  CONSTRAINT PROFESSIONALS_id FOREIGN KEY (id) REFERENCES professionals (id),
-  CONSTRAINT QUESTIONS_id FOREIGN KEY (id) REFERENCES questions (id)
+  SURVEYEDS_id int REFERENCES surveyeds,
+  PROFESSIONALS_id int REFERENCES professionals,
+  QUESTIONS_id int REFERENCES questions
 );
