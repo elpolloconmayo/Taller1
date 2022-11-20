@@ -5,7 +5,7 @@ require 'PG'
 cnxn = PG.connect(host: 'magallanes.inf.unap.cl', dbname: 'gpallero', user: 'gpallero',password: '4Fd3n2hSde')
 
 def imprimirsql(textosql)
-    textosql = q.textosql[0]
+    textosql = textosql.values[0]
     textosql = textosql.to_s
     textosql = textosql.sub('[','')
     textosql = textosql.sub(']','')
@@ -31,9 +31,9 @@ class MenuSubmenuConsola
             nombre = gets.chomp
             puts "Ingrese su contraseña: "
             contraseña = gets.chomp
-            puts cnxn.exec("SELECT * FROM users WHERE name = '#{nombre}' AND password = '#{contraseña}'")
+            
 
-            if false #aqui va conexion con BDD
+            if contraseña == 'xd' #aqui va conexion con BDD
                 puts "Bienvenido #{nombre}"
                 self.MenuPuente(nombre, contraseña)
             else
@@ -87,6 +87,9 @@ class MenuSubmenuConsola
     end
 
     def MenuPaciente(usuario, contraseña)
+
+        cnxn = PG.connect(host: 'magallanes.inf.unap.cl', dbname: 'gpallero', user: 'gpallero',password: '4Fd3n2hSde')
+
         print "MENU \n1. Ingresar paciente 1 \n2. Modificar paciente 2 \n3. Realizar encuesta 3 \n4. Eliminar paciente 4 \n5. Salir 4 \nfavor ingresar opcion 1_2_3_4: ";
         opcion = (gets.chomp).to_i
         case opcion
@@ -119,7 +122,7 @@ class MenuSubmenuConsola
 
             printf 'Dispone de la id del encuestado a modificar? Y/N'
             des = gets.chomp
-            if des = 'Y' || des = 'y':
+            if des == 'Y' || des == 'y'
 
                 puts 'Ingrese el id:'
                 cnid = gets.chomp
@@ -174,7 +177,7 @@ class MenuSubmenuConsola
         when 3
             printf 'Dispone de la id del encuestado a realizar encuesta? Y/N'
             des = gets.chomp
-            if des = 'Y' || des = 'y':
+            if des == 'Y' || des == 'y'
                 printf 'Ingrese el id:'
                 cnid = gets.chomp
 
@@ -194,7 +197,7 @@ class MenuSubmenuConsola
 
             printf "dispone de la id de la encuesta a realizar? Y/N"
             des = gets.chomp
-            if des = 'Y' || des = 'y':
+            if des == 'Y' || des == 'y'
                 printf 'Ingrese el id:'
                 cnide = gets.chomp
             else
@@ -205,16 +208,29 @@ class MenuSubmenuConsola
                 key , value = cond.first
                 value = value.to_i
                 cnide = value
+            end    
 
-                cond = cnxn.exec("SELECT (n_question) FROM questions WHERE id = #{cnide}")
-                nqut = cond
+            cond = cnxn.exec("SELECT (n_question) FROM questions WHERE id = #{cnide}")
+            nqut = cond.values[0].to_s
+            nqut = nqut[2].to_i
 
-                count = 0
+            count = 0
 
-                while count != nqut
-                    r = cnxn.exec("SELECT (question) FROM questions Where id = 1")
+            r = cnxn.exec("SELECT (question) FROM questions Where id = 1")
+            qsts = imprimirsql(r)
 
-        
+            while count != nqut
+
+                puts qsts[count]
+                puts 'ingrese su respuesta:'
+                resp = gets.chomp
+
+                
+
+                count = count + 1
+
+            end
+
         when 4
             puts 'Conoce el id del encuestado a eliminar? Y/N'
             des = gets.chomp
