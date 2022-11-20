@@ -251,7 +251,7 @@ class MenuSubmenuConsola
 
             count = 0
 
-            r = $cnxn.exec("SELECT (question) FROM questions Where id = 1")
+            r = $cnxn.exec("SELECT (question) FROM questions Where id = #{cnide}")
             qsts = imprimirsql(r)
             ftex = ''
 
