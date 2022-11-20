@@ -1,7 +1,12 @@
 require 'date'
 require 'PG'
 require 'encrypted_strings'
-require_relative "ekey"
+begin
+    require_relative "ekey"
+    puts 'Usted ah accedido al sistema con permisos de administrador, bienvenido!'
+rescue Exception
+    puts 'Usted ah ingresado al sistema con permisos publicos, bienvenido!'   
+end
 
 $cnxn = PG.connect(host: 'magallanes.inf.unap.cl', dbname: 'gpallero', user: 'gpallero',password: '4Fd3n2hSde')
 
@@ -33,11 +38,72 @@ class MenuSubmenuConsola
             username = gets.chomp
             puts "Ingrese su contraseña: "
             contraseña = gets.chomp
+            pss = contraseña
+
+            ipss = $cnxn.exec("SELECT (pass) FROM professionals WHERE username = '#{username}'")
+            ipss = ipss.values[0]
+            ipss = ipss[0]
+
+            if defined?($ek) != nil
+
+                begin
+
+                    gpss = pss.encrypt(:symmetric, :algorithm => 'des-ecb', :password => $ek)
+
+                    if ipss == gpss
+                        begin
+                            test = $cnxn.exec("SELECT * FROM professionals WHERE username = '#{username}' AND pass = '#{gpss}'")
+            
+                            $q = $cnxn.exec("SELECT (id) FROM professionals WHERE username = '#{username}' AND pass = '#{gpss}'")
+                            $q = $q.values[0]
+                            $q = $q[0].to_i
+
+                            puts 'Bienvenido administrador: ' + "#{username}"
+            
+                            self.MenuPuente()
+                        rescue Exception
+                            puts "Usuario o contraseña incorrectos, favor de reintentar"
+                            self.main()
+                        end
+                    end
+
+                rescue Exception
+                    puts 'Este usuario esta registrado con permisos de administrador, favor de reingresar con privilegios de administrador o ingresar con un usuario publico.'
+                    self.main()
+                end
+
+            else
+                
+                begin
+                    gpss = pss.encrypt(:symmetric, :algorithm => 'des-ecb', :password => 'public-key')
+
+                    if gpss == ipss
+
+                        begin
+                            test = $cnxn.exec("SELECT * FROM professionals WHERE username = '#{username}' AND pass = '#{gpss}'")
+            
+                            $q = $cnxn.exec("SELECT (id) FROM professionals WHERE username = '#{username}' AND pass = '#{gpss}'")
+                            $q = $q.values[0]
+                            $q = $q[0].to_i
+
+                            puts 'Bienvenido usuario publico: ' + "#{username}"
+            
+                            self.MenuPuente()
+                        rescue IndexError
+                            puts "Usuario o contraseña incorrectos, favor de reintentar"
+                            self.main()
+                        end
+                    end    
+                rescue Exception
+                    puts 'Este usuario esta registrado como administrador, favor de ingresar con privilegios de administrador.'
+                    self.main()    
+                end
+            end
 
             begin
-                test = $cnxn.exec("SELECT * FROM professionals WHERE username = '#{username}' AND pass = '#{contraseña}'")
+                test = $cnxn.exec("SELECT * FROM professionals WHERE username = '#{username}' AND pass = '#{gpss}'")
 
-                $q = $cnxn.exec("SELECT (id) FROM professionals WHERE username = '#{username}' AND pass = '#{contraseña}'")
+                $q = $cnxn.exec("SELECT (id) FROM professionals WHERE username = '#{username}' AND pass = '#{gpss}'")
                 $q = $q.values[0]
                 $q = $q[0].to_i
 
@@ -50,11 +116,25 @@ class MenuSubmenuConsola
         when 2
             #cambiar a futuro por una funcion que reconozca los atributos de la bdd y los pida por consola
             print "\naccedio al submenu Registrarse\n"
+
+            if defined?($ek) == nil
+
+                puts 'Este usuario sera creado con el sistema publico, esto significa que la llave de cifrado de contraseña es publica esta seguro de continuar? Y/N '
+                dci = gets.chomp
+                
+                if dci == 'Y' || dci == 'y'
+                    puts 'Registrando en modo publico...'
+                else
+                    puts 'Entendido volviendo al menu anterior...'
+                    self.main()
+                end 
+            end       
+
             puts 'rut con digito verificador (de no tener rut dejar en blanco):'
             run = gets.chomp
             if run == ''
-                run = NULL
-                dv = NULL
+                run = nil
+                dv = nil
             else    
                 dv = run[8]
                 run = run[0,8].to_i
@@ -80,33 +160,39 @@ class MenuSubmenuConsola
 
             pass = contraseña
 
-            if $ek != ''
+            if defined?($ek) != nil
                 ekey = $ek
             else
-                ekey = 'default'
-            end  
+                ekey = 'public-key'
+            end
 
             epss = pass.encrypt(:symmetric, :algorithm => 'des-ecb', :password => ekey)
 
-            begin
-                $cnxn.exec("INSERT INTO PROFESSIONALS (run, dv, name_, username, pass, email, mother_name, father_name, gender, birthday, cellphone) VALUES (#{run} , '#{dv}', '#{name}', '#{nombre_usu}', '#{epss}', '#{email}', '#{apellido_m}', '#{apellido_p}', '#{genero}', '#{fecha_nac}', '#{telefono}')")
-            rescue
-                puts "Error en ingreso de datos, favor de intentar de nuevo"
-                self.menu()
-            end
-
-            if false #aqui va conexion con BDD
-                puts "Usuario registrado" 
-                self.MenuPuente()
+            if run != nil
+                begin
+                    $cnxn.exec("INSERT INTO PROFESSIONALS (run, dv, name_, username, pass, email, mother_name, father_name, gender, birthday, cellphone) VALUES (#{run} , '#{dv}', '#{name}', '#{nombre_usu}', '#{epss}', '#{email}', '#{apellido_m}', '#{apellido_p}', '#{genero}', '#{fecha_nac}', '#{telefono}')")
+                    puts 'Usuario registrado con exito!'
+                    self.main()
+                rescue Exception
+                    puts "Error en ingreso de datos, favor de intentar de nuevo"
+                    self.main()
+                end    
             else
-                puts "Error al registrar usuario, favor de intentar de nuevo"
-                self.main
+                begin
+                    $cnxn.exec("INSERT INTO PROFESSIONALS (name_, username, pass, email, mother_name, father_name, gender, birthday, cellphone) VALUES ('#{name}', '#{nombre_usu}', '#{epss}', '#{email}', '#{apellido_m}', '#{apellido_p}', '#{genero}', '#{fecha_nac}', '#{telefono}')")
+                    puts 'Usuario registrado con exito!'
+                    self.main()
+                rescue Exception
+                    puts "Error en ingreso de datos, favor de intentar de nuevo"
+                    self.main()
+                end    
             end
         when 3
-            print "Para recuperar su contraseña ingrese su numero de telefono: "
-            cell = gets.chomp
 
-            if $ek != ''
+            if $ek != '' || $ek != nil
+
+                print "Para recuperar su contraseña ingrese su numero de telefono: "
+                cell = gets.chomp
 
                 recp = $cnxn.exec(" SELECT (pass) FROM professionals WHERE cellphone = '#{cell}' ")
 
@@ -114,11 +200,16 @@ class MenuSubmenuConsola
 
                 puts 'Usted es un usuario con la llave de encriptacion, su contraseña es: ' + recp
             else
-                puts 'Usted no tiene permisos para recuperar contraseña' 
-            end       
+                puts 'Usted no tiene permisos para recuperar contraseña, favor de ingresar como administrador.' 
+                self.main()
+            end
+             
+        when 4
+            puts 'Saliendo del sistema'
+            exit 
         else
             print "\nerror de opcion de menu, reiniciando..."
-            self.main
+            self.main()
         end
     end
 
@@ -139,7 +230,7 @@ class MenuSubmenuConsola
     end
 
     def MenuPaciente()
-        print "MENU \n1. Ingresar paciente 1 \n2. Modificar paciente 2 \n3. Realizar encuesta 3 \n4. Eliminar paciente 4 \n5. Salir 4 \nfavor ingresar opcion 1_2_3_4: ";
+        print "MENU \n1. Ingresar paciente 1 \n2. Modificar paciente 2 \n3. Realizar encuesta 3 \n4. Eliminar paciente 4 \n5. volver al menu anterior 4 \nfavor ingresar opcion 1_2_3_4: ";
         opcion = (gets.chomp).to_i
         case opcion
         when 1
@@ -148,8 +239,8 @@ class MenuSubmenuConsola
             pputs 'rut con digito verificador (de no tener rut dejar en blanco):'
             run = gets.chomp
             if run == ''
-                run = NULL
-                dv = NULL
+                run = nil
+                dv = nil
             else    
                 dv = run[8]
                 run = run[0,8].to_i
@@ -333,7 +424,8 @@ class MenuSubmenuConsola
             end
 
         when 5
-            print "Saliendo..."
+            print "volviendo al menu anterior..."
+            self.MenuPuente()
         else
             print "\nerror de opcion de menu, reiniciando..."
             self.MenuPaciente(usuario, contraseña)
@@ -341,7 +433,7 @@ class MenuSubmenuConsola
     end
 
     def MenuEncuesta()
-        print "MENU \n1. Ingresar encuesta 1 \n2. Modificar encuesta 2 \n3. Eliminar encuesta 3 \n4. Salir 4 \nfavor ingresar opcion 1_2_3_4: ";
+        print "MENU \n1. Ingresar encuesta 1 \n2. Modificar encuesta 2 \n3. Eliminar encuesta 3 \n4. Volver al menu anterior 4 \nfavor ingresar opcion 1_2_3_4: ";
         opcion = (gets.chomp).to_i
         case opcion
         when 1
@@ -463,7 +555,7 @@ class MenuSubmenuConsola
                 end    
 
             when 4
-                #regresar al menu anterior
+                self.MenuPuente()
             end
 
         when 3
