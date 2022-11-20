@@ -2,7 +2,7 @@ DROP TABLE IF EXISTS questions;
 
 CREATE TABLE questions (
   id serial NOT NULL,
-  name_test varchar(255) DEFAULT NULL,
+  name_test varchar(255) NOT NULL,
   question text NOT NULL,
   n_question int NOT NULL,
   max_point text NOT NULL,
