@@ -69,6 +69,9 @@ class MenuSubmenuConsola
                             puts "Usuario o contraseña incorrectos, favor de reintentar"
                             self.main()
                         end
+                    else
+                        puts "Usuario o contraseña incorrectos, favor de reintentar"
+                        self.main() 
                     end
 
                 rescue Exception
@@ -93,7 +96,7 @@ class MenuSubmenuConsola
                             puts 'Bienvenido usuario publico: ' + "#{username}"
             
                             self.MenuPuente()
-                        rescue IndexError
+                        rescue Exception
                             puts "Usuario o contraseña incorrectos, favor de reintentar"
                             self.main()
                         end
@@ -425,19 +428,69 @@ class MenuSubmenuConsola
             end
 
             ftex = ftex.sub('\n','')
+        
+        begin
 
-        $cnxn.exec("INSERT INTO answers(answer, point, surveyeds_id, professionals_id, questions_id) VALUES('#{ftex}','100',#{cnid},#{$q},#{cnide})")
+            $cnxn.exec("INSERT INTO answers(answer, point, surveyeds_id, professionals_id, questions_id) VALUES('#{ftex}','100',#{cnid},#{$q},#{cnide})")
+            puts 'Datos ingresados correctamente!'
+            puts 'Desea realizar otra operacion? Y/N'
 
+            dee = gets.chomp
+
+                if dee == 'Y' || dee == 'y'
+                    self.MenuPaciente()
+                else
+                    puts 'Gracias por su visita, cerrando sesion...'
+                    exit
+                end
+
+        rescue
+            puts 'Error al ingresar la respuesta, intente nuevamente.'
+            self.MenuPaciente()    
+        end    
         when 4
             puts 'Conoce el id del encuestado a eliminar? Y/N'
             des = gets.chomp
             if des == 'Y' || des == 'y'
                 puts 'Porfavor ingrese el id del encuestado:'
                 deid = gets.chomp
+
+                begin
+                    isdl = $cnxn.exec("SELECT (deleted_at) FROM surveyeds WHERE id = '#{deid}'")
+                rescue
+                    puts 'esta id de usuario no es valida, intente nuevamente.'
+                    self.MenuPaciente()
+                end    
+
+                isdl = isdl.values[0]
+                isdl = isdl[0]
+
+                if isdl != nil
+                    puts 'Este usuario no existe, intente nuevamente.'
+                    self.MenuPaciente()
+                end
+
                 detm = Time.now.to_s
+                
+                begin
 
-                $cnxn.exec("UPDATE surveyeds SET deleted_at = '#{detm}' WHERE id = #{deid}")
+                    $cnxn.exec("UPDATE surveyeds SET deleted_at = '#{detm}' WHERE id = #{deid}")
 
+                    puts 'Desea realizar otra operacion? Y/N'
+
+                    dee = gets.chomp
+
+                    if dee == 'Y' || dee == 'y'
+                        self.MenuPaciente()
+                    else
+                        puts 'Gracias por su visita, cerrando sesion...'
+                        exit!
+                    end
+
+                rescue Exception
+                    puts 'Error al eliminar paciente, intente nuevamente.'
+                    self.MenuPaciente()    
+                end    
             else
                 puts 'Si no recuerda el id ingrese los siguientes datos:'
 
@@ -494,8 +547,24 @@ class MenuSubmenuConsola
 
             ftes = ftes.sub('\n','')
             fqus = fqus.sub('\n','')
-            
-            $cnxn.exec("INSERT INTO questions(name_test, question, n_question, max_point) VALUES ( '#{nsur}', '#{ftes}', #{nqus}, '#{fqus}')")
+
+            begin
+                $cnxn.exec("INSERT INTO questions(name_test, question, n_question, max_point) VALUES ( '#{nsur}', '#{ftes}', #{nqus}, '#{fqus}')")
+
+                puts 'Desea realizar otra operacion? Y/N'
+
+                    dee = gets.chomp
+
+                    if dee == 'Y' || dee == 'y'
+                        self.MenuPaciente()
+                    else
+                        puts 'Gracias por su visita, cerrando sesion...'
+                        exit!
+                    end
+
+            rescue Exception
+                p 'Error al crear la encuesta, intente nuevamente.'  
+            end      
                 
         when 2
 
