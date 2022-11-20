@@ -11,7 +11,9 @@ def imprimirsql(textosql)
     textosql = textosql.sub(']','')
     textosql = textosql.sub('"','')
     textosql = textosql.sub('"','')
-    return textosql.split('\n')
+    textosql = textosql.sub('\\\\','/')
+    return textosql.split('/n')
+
 end
 
 
@@ -22,6 +24,7 @@ class MenuSubmenuConsola
     #Characters contraseña
 
     def main()
+
         print "MENU \n1. Ingresar 1 \n2. Registrarse 2 \n3. Salir 3 \nfavor ingresar opcion 1_2_3: ";
         opcion = (gets.chomp).to_i
         case opcion
@@ -276,7 +279,37 @@ class MenuSubmenuConsola
         opcion = (gets.chomp).to_i
         case opcion
         when 1
-            #aqui va la funcion de ingresar encuesta
+            puts 'cuantas preguntas desea que tenga la encuesta?'
+            nqus = gets.chomp.to_i
+            puts 'Ingrese el nombre con el cual guardara la encuesta:'
+            nsur = gets.chomp
+
+            count = 0
+            ftes = ''
+            fpts = ''
+            fqus = ''
+            qstn = ''
+
+            while count != nqus
+                puts "Ingrese la pregunta numero #{count + 1}:"
+                ques = gets.chomp
+                puts 'Ingrese el puntaje maximo de esta pregunta:'
+                fpts = gets.chomp
+
+
+                ftes = ftes + '\n' + ques
+                qstn = "Pregunta #{count + 1}:"
+                fpts = qstn + fpts
+                fqus = fqus + '\n' + fpts
+
+                count = count + 1
+            end
+
+            ftes = ftes.sub('\n','')
+            fqus = fqus.sub('\n','')
+            
+            $cnxn.exec("INSERT INTO questions(name_test, question, n_question, max_point) VALUES ( '#{nsur}', '#{ftes}', #{nqus}, '#{fqus}')")
+                
         when 2
             #aqui va la funcion de modificar encuesta
         when 3
