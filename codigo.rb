@@ -1,9 +1,12 @@
 require 'date'
 require 'PG'
 require 'encrypted_strings'
-require 'ekey.txt'
+require_relative "ekey.rb"
 
 $cnxn = PG.connect(host: 'magallanes.inf.unap.cl', dbname: 'gpallero', user: 'gpallero',password: '4Fd3n2hSde')
+ekf = File.open('ekey.txt','r')
+
+p ekf
 
 def imprimirsql(textosql)
     textosql = textosql.values[0]
