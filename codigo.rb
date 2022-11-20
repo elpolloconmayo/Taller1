@@ -35,6 +35,11 @@ class MenuSubmenuConsola
             begin
                 test = $cnxn.exec("SELECT * FROM professionals WHERE username = '#{username}' AND pass = '#{contraseña}'")
                 test = test[0].length
+
+                $q = $cnxn.exec("SELECT (id) FROM professionals WHERE username = '#{username}' AND pass = '#{contraseña}'")
+                $q = $q.values[0]
+                $q = $q[0].to_i
+
                 self.MenuPuente()
             rescue IndexError
                 puts "Usuario o contraseña incorrectos, favor de reintentar"
@@ -226,7 +231,7 @@ class MenuSubmenuConsola
                 cnide = value
             end    
 
-            cond = cnxn.exec("SELECT (n_question) FROM questions WHERE id = #{cnide}")
+            cond = $cnxn.exec("SELECT (n_question) FROM questions WHERE id = #{cnide}")
             nqut = cond.values[0]
             nqut = nqut[0].to_i
 
@@ -250,7 +255,7 @@ class MenuSubmenuConsola
 
             ftex = ftex.sub('\n','')
 
-            cnxn.exec("INSERT INTO answers(answer, point, surveyeds_id, professionals_id, questions_id) VALUES('#{ftex}','100',#{cnid},1,#{cnide})")
+        $cnxn.exec("INSERT INTO answers(answer, point, surveyeds_id, professionals_id, questions_id) VALUES('#{ftex}','100',#{cnid},#{$q},#{cnide})")
 
         when 4
             puts 'Conoce el id del encuestado a eliminar? Y/N'
