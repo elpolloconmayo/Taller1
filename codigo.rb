@@ -2,7 +2,7 @@ require 'date'
 require 'PG'
 
 
-cnxn = PG.connect(host: 'magallanes.inf.unap.cl', dbname: 'gpallero', user: 'gpallero',password: '4Fd3n2hSde')
+$cnxn = PG.connect(host: 'magallanes.inf.unap.cl', dbname: 'gpallero', user: 'gpallero',password: '4Fd3n2hSde')
 
 def imprimirsql(textosql)
     textosql = textosql.values[0]
@@ -33,7 +33,7 @@ class MenuSubmenuConsola
             contraseña = gets.chomp
 
             begin
-                test = cnxn.exec("SELECT * FROM professionals WHERE username = '#{username}' AND pass = '#{contraseña}'")
+                test = $cnxn.exec("SELECT * FROM professionals WHERE username = '#{username}' AND pass = '#{contraseña}'")
                 test = test[0].length
                 self.MenuPuente()
             rescue IndexError
@@ -113,7 +113,7 @@ class MenuSubmenuConsola
             puts "Apellido paterno:"
             apellido_pp = gets.chomp
 
-            cnxn.exec("INSERT INTO surveyeds (run, dv, name, mother_sname, father_sname) textosql ( #{run} , '#{dv}' , '#{nombre_pat}' , '#{apellido_mp}' , '#{apellido_pp}')")
+            $cnxn.exec("INSERT INTO surveyeds (run, dv, name, mother_sname, father_sname) textosql ( #{run} , '#{dv}' , '#{nombre_pat}' , '#{apellido_mp}' , '#{apellido_pp}')")
 
         when 2
 
@@ -132,7 +132,7 @@ class MenuSubmenuConsola
                 puts 'Apellido paterno'
                 cnap = gets.chomp
 
-                cond = cnxn.exec("SELECT (id) FROM profetionals WHERE name = #{cndn} AND mother_sname = #{cnam} AND father_sname = #{cnap}")
+                cond = $cnxn.exec("SELECT (id) FROM profetionals WHERE name = #{cndn} AND mother_sname = #{cnam} AND father_sname = #{cnap}")
                 key , value = cond.first
                 value = value.to_i
                 cnid = value
@@ -147,28 +147,28 @@ class MenuSubmenuConsola
             if nrut != ''
                 nwdv = nrut[8]
                 nrut = nrut[0,8].to_i
-                cnxn.exec("UPDATE surveyeds SET run = #{nrut}, dv = #{nwdv} WHERE id = #{value};")
+                $cnxn.exec("UPDATE surveyeds SET run = #{nrut}, dv = #{nwdv} WHERE id = #{value};")
             end   
 
             puts 'Nombre:'
             nnam = gets.chomp
 
             if nnam != ''
-                cnxn.exec("UPDATE surveyeds SET name = #{nrut} WHERE id = #{value};")
+                $cnxn.exec("UPDATE surveyeds SET name = #{nrut} WHERE id = #{value};")
             end   
 
             puts 'Apellido materno:'
             nmsn = gets.chomp
 
             if nmsn != ''
-                cnxn.exec("UPDATE surveyeds SET mother_sname = #{nrut} WHERE id = #{value};")
+                $cnxn.exec("UPDATE surveyeds SET mother_sname = #{nrut} WHERE id = #{value};")
             end    
 
             puts 'Apellido paterno:'
             nfsn = gets.chomp
 
             if nfsn != ''
-                cnxn.exec("UPDATE surveyeds SET father_sname = #{nfsn} WHERE id = #{cnid};")
+                $cnxn.exec("UPDATE surveyeds SET father_sname = #{nfsn} WHERE id = #{cnid};")
             end    
         
         when 3
@@ -186,7 +186,7 @@ class MenuSubmenuConsola
                 printf 'Favor de ingresar el apellido materno: '
                 cnam = gets.chomp
 
-                cond = cnxn.exec("SELECT (id) FROM surveyeds WHERE name = #{cndn} AND mother_sname = #{cnam} AND father_sname = #{cnap}")
+                cond = $cnxn.exec("SELECT (id) FROM surveyeds WHERE name = #{cndn} AND mother_sname = #{cnam} AND father_sname = #{cnap}")
                 key , value = cond.first
                 value = value.to_i
                 cnid = value
@@ -201,19 +201,19 @@ class MenuSubmenuConsola
                 printf 'Favor de ingresar el nombre de la encuesta: '
                 cndne = gets.chomp
 
-                cond = cnxn.exec("SELECT (id) FROM questions WHERE name = #{cndne}")
+                cond = $cnxn.exec("SELECT (id) FROM questions WHERE name = #{cndne}")
                 key , value = cond.first
                 value = value.to_i
                 cnide = value
             end    
 
-            cond = cnxn.exec("SELECT (n_question) FROM questions WHERE id = #{cnide}")
+            cond = $cnxn.exec("SELECT (n_question) FROM questions WHERE id = #{cnide}")
             nqut = cond.values[0].to_s
             nqut = nqut[2].to_i
 
             count = 0
 
-            r = cnxn.exec("SELECT (question) FROM questions Where id = 1")
+            r = $cnxn.exec("SELECT (question) FROM questions Where id = 1")
             qsts = imprimirsql(r)
 
             while count != nqut
@@ -236,7 +236,7 @@ class MenuSubmenuConsola
                 deid = gets.chomp
                 detm = Time.now
 
-                cnxn.exec("UPDATE surveyeds deleted_at = #{detm} WHERE id = #{deid}")
+                $cnxn.exec("UPDATE surveyeds deleted_at = #{detm} WHERE id = #{deid}")
 
             else
                 puts 'Si no recuerda el id ingrese los siguientes datos:'
@@ -249,7 +249,7 @@ class MenuSubmenuConsola
                 cnap = gets.chomp
                 detm = Time.now
 
-                cnxn.exec("UPDATE surveyeds deleted_at = #{detm} WHERE name = #{cndn} AND mother_sname = #{cnam} AND father_sname = #{cnap}")
+                $cnxn.exec("UPDATE surveyeds deleted_at = #{detm} WHERE name = #{cndn} AND mother_sname = #{cnam} AND father_sname = #{cnap}")
             end
 
         when 5
