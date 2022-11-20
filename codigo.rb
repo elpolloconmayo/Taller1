@@ -166,6 +166,7 @@ class MenuSubmenuConsola
             if des = 'Y' || des = 'y':
                 printf 'Ingrese el id:'
                 cnid = gets.chomp
+
             else
                 printf 'Favor de ingresar el nombre: '
                 cndn = gets.chomp
@@ -173,6 +174,13 @@ class MenuSubmenuConsola
                 cnap = gets.chomp
                 printf 'Favor de ingresar el apellido materno: '
                 cnam = gets.chomp
+
+                cond = cnxn.exec("SELECT (id) FROM surveyeds WHERE name = #{cndn} AND mother_sname = #{cnam} AND father_sname = #{cnap}")
+                key , value = cond.first
+                value = value.to_i
+                cnid = value
+            end
+
             printf "dispone de la id de la encuesta a realizar? Y/N"
             des = gets.chomp
             if des = 'Y' || des = 'y':
@@ -181,8 +189,19 @@ class MenuSubmenuConsola
             else
                 printf 'Favor de ingresar el nombre de la encuesta: '
                 cndne = gets.chomp
-            #realizar encuesta
 
+                cond = cnxn.exec("SELECT (id) FROM questions WHERE name = #{cndne}")
+                key , value = cond.first
+                value = value.to_i
+                cnide = value
+
+                cond = cnxn.exec("SELECT (n_question) FROM questions WHERE id = #{cnide}")
+                nqut = cond
+
+                count = 0
+
+                while count != nqut
+                    r = cnxn.exec("SELECT (question) FROM questions Where id = 1")
 
         
         when 4
