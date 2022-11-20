@@ -146,7 +146,7 @@ class MenuSubmenuConsola
             fecha_nac = gets.chomp
 
             begin
-                $cnxn.exec("INSERT INTO surveyeds (run, dv, name, father_name, mother_name, gender, birthday, mail) values ( #{run} , '#{dv}', '#{name}', '#{apellido_p}', '#{apellido_m}', '#{genero}', '#{email}', '#{fecha_nac}')")
+                $cnxn.exec("INSERT INTO surveyeds (run, dv, name_, father_name, mother_name, gender, birthday, mail) values ( #{run} , '#{dv}', '#{name}', '#{apellido_p}', '#{apellido_m}', '#{genero}', '#{email}', '#{fecha_nac}')")
             rescue
                 puts "Error en ingreso de datos, favor de intentar de nuevo"
                 self.MenuPaciente()
@@ -184,29 +184,43 @@ class MenuSubmenuConsola
             if nrut != ''
                 nwdv = nrut[8]
                 nrut = nrut[0,8].to_i
-                $cnxn.exec("UPDATE surveyeds SET run = #{nrut}, dv = #{nwdv} WHERE id = #{value};")
+                $cnxn.exec("UPDATE surveyeds SET run = #{nrut}, dv = '#{nwdv}' WHERE id = #{cnid};")
             end   
 
             puts 'Nombre:'
             nnam = gets.chomp
 
             if nnam != ''
-                $cnxn.exec("UPDATE surveyeds SET name = #{nrut} WHERE id = #{value};")
+                $cnxn.exec("UPDATE surveyeds SET name_ = '#{nnam}' WHERE id = #{cnid};")
             end   
 
             puts 'Apellido materno:'
             nmsn = gets.chomp
 
             if nmsn != ''
-                $cnxn.exec("UPDATE surveyeds SET mother_sname = #{nrut} WHERE id = #{value};")
+                $cnxn.exec("UPDATE surveyeds SET mother_sname = '#{nmsn}' WHERE id = #{cnid};")
             end    
 
             puts 'Apellido paterno:'
             nfsn = gets.chomp
 
             if nfsn != ''
-                $cnxn.exec("UPDATE surveyeds SET father_sname = #{nfsn} WHERE id = #{cnid};")
-            end    
+                $cnxn.exec("UPDATE surveyeds SET father_sname = '#{nfsn}' WHERE id = #{cnid};")
+            end
+            
+            puts 'email:'
+            neml = gets.chomp
+
+            if neml != ''
+                $cnxn.exec(" UPDATE surveyeds SET mail = '#{neml}' WHERE id = #{cnid}")
+            end
+
+            puts 'Genero:'
+            ngdr = gets.chomp
+
+            if ngdr != ''
+                $cnxn.exec(" UPDATE surveyeds SET gender = '#{ngdr}' WHERE id = #{cnid} ")
+            end     
         
         when 3
             printf 'Dispone de la id del encuestado a realizar encuesta? Y/N'
@@ -278,9 +292,9 @@ class MenuSubmenuConsola
             if des == 'Y' || des == 'y'
                 puts 'Porfavor ingrese el id del encuestado:'
                 deid = gets.chomp
-                detm = Time.now
+                detm = Time.now.to_s
 
-                $cnxn.exec("UPDATE surveyeds deleted_at = #{detm} WHERE id = #{deid}")
+                $cnxn.exec("UPDATE surveyeds SET deleted_at = '#{detm}' WHERE id = #{deid}")
 
             else
                 puts 'Si no recuerda el id ingrese los siguientes datos:'
@@ -291,9 +305,9 @@ class MenuSubmenuConsola
                 cnam = gets.chomp
                 puts 'Apellido paterno'
                 cnap = gets.chomp
-                detm = Time.now
+                detm = Time.now.to_s
 
-                $cnxn.exec("UPDATE surveyeds deleted_at = #{detm} WHERE name = #{cndn} AND mother_sname = #{cnam} AND father_sname = #{cnap}")
+                $cnxn.exec("UPDATE surveyeds deleted_at = '#{detm}' WHERE name = #{cndn} AND mother_sname = #{cnam} AND father_sname = #{cnap}")
             end
 
         when 5
