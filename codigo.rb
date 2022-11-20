@@ -114,7 +114,7 @@ class MenuSubmenuConsola
             end
             
         when 2
-            #cambiar a futuro por una funcion que reconozca los atributos de la bdd y los pida por consola
+            
             print "\naccedio al submenu Registrarse\n"
 
             if defined?($ek) == nil
