@@ -355,9 +355,110 @@ class MenuSubmenuConsola
             $cnxn.exec("INSERT INTO questions(name_test, question, n_question, max_point) VALUES ( '#{nsur}', '#{ftes}', #{nqus}, '#{fqus}')")
                 
         when 2
-            #aqui va la funcion de modificar encuesta
+
+            puts 'Dispone de la id de encuesta?'
+            des = gets.chomp
+
+            if des == 'Y' || des == 'y'
+                puts 'Ingrese la id de la encuesta a modificar:'
+                cnem = gets.chomp
+            else
+                puts 'Ingrese el nombre de la encuesta:'
+                #recordar hacer esto xd
+            end
+
+            puts 'Que informacion desea modificar?'
+            puts '1.-Preguntas 2.-Nombre de la encuesta 3.-Observacion 4.-Ninguna'
+
+            ds = gets.chomp.to_i
+
+            case ds
+            when 1
+
+                cond = $cnxn.exec("SELECT (n_question) FROM questions WHERE id = #{cnem}")
+                nqut = cond.values[0]
+                nqut = nqut[0].to_i
+
+                count = 0
+
+                r = $cnxn.exec("SELECT (question) FROM questions Where id = #{cnem}")
+
+                qsts = imprimirsql(r)
+            
+                fnqs = ''
+
+                while count != nqut
+                    puts "Pregunta actual: #{qsts[count]} "
+                    puts 'Nueva pregunta (de no querer modificar dejar en blanco):'
+                    nqst = gets.chomp
+
+                    if nqst == ''
+                        fnqs = fnqs + '\n' + qsts[count]
+                    else
+
+                        fnqs = fnqs + '\n' + nqst
+                    end
+
+                    count = count + 1
+                end
+
+                
+                fnqs = fnqs.sub('\n','')
+                
+
+                qsvf = fnqs.gsub('\n','')
+
+
+                if qsvf != ''
+                    $cnxn.exec("UPDATE questions SET question = '#{fnqs}' WHERE id = #{cnem}")
+                end    
+
+            when 2
+                
+                actn = $cnxn.exec("SELECT (name_test) FROM questions WHERE id = #{cnem}")
+                actn = actn.values[0]
+
+                puts 'Nombre actual: ' + actn.first
+                puts 'Nuevo nombre(de no querer modificar dejar en blanco): '
+                nsvn = gets.chomp
+
+                if nsvn != ''
+                    $cnxn.exec("UPDATE questions SET name_test = '#{nsvn}' WHERE id = #{cnem}")
+                end
+            
+            when 3
+
+                acto = $cnxn.exec("SELECT (description) FROM questions WHERE id = #{cnem}")
+                acto = acto.values[0]
+
+                puts 'Descripcion actual: ' + acto.first.to_s
+                puts 'Nueva descripcion (de no querer modificar dejar en blanco): '
+
+                ndsc = gets.chomp
+
+                if ndsc != ''
+                    $cnxn.exec("UPDATE questions SET description = '#{ndsc}' WHERE id = #{cnem}")
+                end    
+
+            when 4
+                #regresar al menu anterior
+            end
+
         when 3
-            #aqui va la funcion de eliminar encuesta
+            puts 'Dispone de la id de encuesta?'
+            des = gets.chomp
+
+            if des == 'Y' || des == 'y'
+                puts 'Ingrese la id de la encuesta a eliminar:'
+                cnds = gets.chomp
+            else
+                puts 'Ingrese el nombre de la encuesta:'
+                #recordar hacer esto xd
+            end
+
+            dels = Time.now.to_s
+            $cnxn.exec("UPDATE questions SET deleted_at = '#{dels}' WHERE id = #{cnds}")
+
         when 4
             print "Saliendo..."
         else
