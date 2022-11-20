@@ -11,17 +11,6 @@ def imprimirsql(textosql)
     textosql = textosql.sub(']','')
     textosql = textosql.sub('"','')
     textosql = textosql.sub('"','')
-    return textosql.split('\n')
-
-end
-
-def imprimirsql1(textosql)
-    textosql = textosql.values[0]
-    textosql = textosql.to_s
-    textosql = textosql.sub('[','')
-    textosql = textosql.sub(']','')
-    textosql = textosql.sub('"','')
-    textosql = textosql.sub('"','')
     textosql = textosql.sub('\\\\','/')
     return textosql.split('/n')
 
@@ -262,21 +251,16 @@ class MenuSubmenuConsola
 
             count = 0
 
-            r = $cnxn.exec("SELECT (question) FROM questions Where id = #{cnide}")
+            r = $cnxn.exec("SELECT (question) FROM questions Where id = 1")
             qsts = imprimirsql(r)
-            s = $cnxn.exec("SELECT (max_point) FROM questions WHERE id = #{cnide}")
-            max_points = imprimirsql(s)
             ftex = ''
-            points = 0
 
             while count != nqut
 
                 puts qsts[count]
-                puts 'ingrese su respuesta: '
+                puts 'ingrese su respuesta:'
                 resp = gets.chomp
-                puts "ingrese el puntaje obtenido (max = #{s[count]}): "
-                puntaje = gets.chomp.to_i
-                points = points + puntaje
+
                 ftex = ftex + '\n' + resp
 
                 count = count + 1
@@ -285,7 +269,7 @@ class MenuSubmenuConsola
 
             ftex = ftex.sub('\n','')
 
-            $cnxn.exec("INSERT INTO answers(answer, point, surveyeds_id, professionals_id, questions_id) VALUES('#{ftex}',#{points},#{cnid},#{$q},#{cnide})")
+        $cnxn.exec("INSERT INTO answers(answer, point, surveyeds_id, professionals_id, questions_id) VALUES('#{ftex}','100',#{cnid},#{$q},#{cnide})")
 
         when 4
             puts 'Conoce el id del encuestado a eliminar? Y/N'
@@ -313,7 +297,6 @@ class MenuSubmenuConsola
 
         when 5
             print "Saliendo..."
-            self.menu()
         else
             print "\nerror de opcion de menu, reiniciando..."
             self.MenuPaciente(usuario, contraseña)
