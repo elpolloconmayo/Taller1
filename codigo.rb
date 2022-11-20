@@ -1,6 +1,6 @@
 require 'date'
 require 'PG'
-
+require 'encrypted_strings'
 
 $cnxn = PG.connect(host: 'magallanes.inf.unap.cl', dbname: 'gpallero', user: 'gpallero',password: '4Fd3n2hSde')
 
@@ -35,7 +35,6 @@ class MenuSubmenuConsola
 
             begin
                 test = $cnxn.exec("SELECT * FROM professionals WHERE username = '#{username}' AND pass = '#{contraseña}'")
-                test = test[0].length
 
                 $q = $cnxn.exec("SELECT (id) FROM professionals WHERE username = '#{username}' AND pass = '#{contraseña}'")
                 $q = $q.values[0]
@@ -78,8 +77,12 @@ class MenuSubmenuConsola
             puts "Ingrese su numero de telefono"
             telefono = gets.chomp
 
+            pass = contraseña
+            ekey = 'xd'
+            epss = pass.encrypt(:symmetric, :algorithm => 'des-ecb', :password => ekey)
+
             begin
-                $cnxn.exec("INSERT INTO PROFESSIONALS (run, dv, name_, username, pass, email, mother_name, father_name, gender, birthday, cellphone) VALUES (#{rut} , '#{dv}', '#{name}', '#{nombre_usu}', '#{contraseña}', '#{email}', '#{apellido_m}', '#{apellido_p}', '#{genero}', '#{fecha_nac}', '#{telefono}')")
+                $cnxn.exec("INSERT INTO PROFESSIONALS (run, dv, name_, username, pass, email, mother_name, father_name, gender, birthday, cellphone) VALUES (#{run} , '#{dv}', '#{name}', '#{nombre_usu}', '#{epss}', '#{email}', '#{apellido_m}', '#{apellido_p}', '#{genero}', '#{fecha_nac}', '#{telefono}')")
             rescue
                 puts "Error en ingreso de datos, favor de intentar de nuevo"
                 self.menu()
@@ -142,7 +145,7 @@ class MenuSubmenuConsola
             genero = gets.chomp
             puts "Ingrese su correo"
             email = gets.chomp
-            puts "Ingrese su fecha de nacimiento (19XX-XX-XX)"
+            puts "Ingrese su fecha de nacimiento (YYYY-MM-DD)"
             fecha_nac = gets.chomp
 
             begin
