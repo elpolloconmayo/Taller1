@@ -39,10 +39,14 @@ class MenuSubmenuConsola
             puts "Ingrese su contraseña: "
             contraseña = gets.chomp
             pss = contraseña
-
-            ipss = $cnxn.exec("SELECT (pass) FROM professionals WHERE username = '#{username}'")
-            ipss = ipss.values[0]
-            ipss = ipss[0]
+            begin
+                ipss = $cnxn.exec("SELECT (pass) FROM professionals WHERE username = '#{username}'")
+                ipss = ipss.values[0]
+                ipss = ipss[0]
+            rescue Exception
+                puts 'Este nombre de usuario no existe favor de intentar nuevamente'
+                self.main()
+            end
 
             if defined?($ek) != nil
 
@@ -98,19 +102,6 @@ class MenuSubmenuConsola
                     puts 'Este usuario esta registrado como administrador, favor de ingresar con privilegios de administrador.'
                     self.main()    
                 end
-            end
-
-            begin
-                test = $cnxn.exec("SELECT * FROM professionals WHERE username = '#{username}' AND pass = '#{gpss}'")
-
-                $q = $cnxn.exec("SELECT (id) FROM professionals WHERE username = '#{username}' AND pass = '#{gpss}'")
-                $q = $q.values[0]
-                $q = $q[0].to_i
-
-                self.MenuPuente()
-            rescue IndexError
-                puts "Usuario o contraseña incorrectos, favor de reintentar"
-                self.main()
             end
             
         when 2
@@ -189,7 +180,7 @@ class MenuSubmenuConsola
             end
         when 3
 
-            if $ek != '' || $ek != nil
+            if defined?($ek) != nil
 
                 print "Para recuperar su contraseña ingrese su numero de telefono: "
                 cell = gets.chomp
@@ -230,13 +221,15 @@ class MenuSubmenuConsola
     end
 
     def MenuPaciente()
-        print "MENU \n1. Ingresar paciente 1 \n2. Modificar paciente 2 \n3. Realizar encuesta 3 \n4. Eliminar paciente 4 \n5. volver al menu anterior 4 \nfavor ingresar opcion 1_2_3_4: ";
+        print "MENU \n1. Ingresar paciente 1 \n2. Modificar paciente 2 \n3. Realizar encuesta 3 \n4. Eliminar paciente 4 \n5. volver al menu anterior 4 \nfavor ingresar opcion 1_2_3_4: "
         opcion = (gets.chomp).to_i
+
         case opcion
+
         when 1
 
-            printf 'Ingrese los siguientes datos del encuestado:'
-            pputs 'rut con digito verificador (de no tener rut dejar en blanco):'
+            puts 'Ingrese los siguientes datos del encuestado:'
+            puts 'rut con digito verificador (de no tener rut dejar en blanco):'
             run = gets.chomp
             if run == ''
                 run = nil
@@ -245,7 +238,7 @@ class MenuSubmenuConsola
                 dv = run[8]
                 run = run[0,8].to_i
             end
-            puts "\nIngrese su nombre"
+            puts "Ingrese su nombre"
             name = gets.chomp
             puts "Ingrese su apellido paterno"
             apellido_p = gets.chomp
@@ -258,12 +251,48 @@ class MenuSubmenuConsola
             puts "Ingrese su fecha de nacimiento (YYYY-MM-DD)"
             fecha_nac = gets.chomp
 
-            begin
-                $cnxn.exec("INSERT INTO surveyeds (run, dv, name_, father_name, mother_name, gender, birthday, mail) values ( #{run} , '#{dv}', '#{name}', '#{apellido_p}', '#{apellido_m}', '#{genero}', '#{email}', '#{fecha_nac}')")
-            rescue
-                puts "Error en ingreso de datos, favor de intentar de nuevo"
-                self.MenuPaciente()
-            end
+            if run != nil
+
+                begin
+                    $cnxn.exec("INSERT INTO surveyeds (run, dv, name_, father_sname, mother_sname, gender, birthday, mail) values ( #{run} , '#{dv}', '#{name}', '#{apellido_p}', '#{apellido_m}', '#{genero}', '#{fecha_nac}', '#{email}')")
+                    puts 'Datos ingresado correctamente!'
+                    puts 'Desea realizar otra operacion? Y/N '
+                    dee = gets.chomp
+
+                    if dee == 'Y' || dee == 'y'
+                        self.MenuPaciente()
+                    else
+                        puts 'Gracias por su visita, cerrando sesion...'
+                        exit
+                    end
+
+                rescue
+                    puts "Error en ingreso de datos, favor de intentar de nuevo"
+                    self.MenuPaciente()
+                end
+
+            else
+
+                begin
+                    $cnxn.exec("INSERT INTO surveyeds (name_, father_sname, mother_sname, gender, birthday, mail) values ( '#{name}', '#{apellido_p}', '#{apellido_m}', '#{genero}', '#{fecha_nac}', '#{email}')")
+                    puts 'Datos ingresados correctamente!'
+
+                    puts 'Desea realizar otra operacion? Y/N '
+                    
+                    dee = gets.chomp
+                    
+                    if dee == 'Y' || dee == 'y'
+                        self.MenuPaciente()
+                    else
+                        puts 'Gracias por su visita, cerrando sesion...'
+                        exit
+                    end
+                    
+                rescue Exception
+                    puts 'Error al ingresar datos, intentar nuevamente'
+                    self.MenuPaciente()
+                end    
+            end    
 
         when 2
 
@@ -291,7 +320,7 @@ class MenuSubmenuConsola
 
             printf 'Ingrese los datos a modificar (de no querer modificarlos dejar en blanco):'
 
-            puts 'Rut:'
+            puts 'Nuevo rut:'
             nrut = gets.chomp
 
             if nrut != ''
@@ -300,35 +329,35 @@ class MenuSubmenuConsola
                 $cnxn.exec("UPDATE surveyeds SET run = #{nrut}, dv = '#{nwdv}' WHERE id = #{cnid};")
             end   
 
-            puts 'Nombre:'
+            puts 'Nuevo nombre:'
             nnam = gets.chomp
 
             if nnam != ''
                 $cnxn.exec("UPDATE surveyeds SET name_ = '#{nnam}' WHERE id = #{cnid};")
             end   
 
-            puts 'Apellido materno:'
+            puts 'Nuevo apellido materno:'
             nmsn = gets.chomp
 
             if nmsn != ''
                 $cnxn.exec("UPDATE surveyeds SET mother_sname = '#{nmsn}' WHERE id = #{cnid};")
             end    
 
-            puts 'Apellido paterno:'
+            puts 'Nuevo apellido paterno:'
             nfsn = gets.chomp
 
             if nfsn != ''
                 $cnxn.exec("UPDATE surveyeds SET father_sname = '#{nfsn}' WHERE id = #{cnid};")
             end
             
-            puts 'email:'
+            puts 'Nuevo email:'
             neml = gets.chomp
 
             if neml != ''
                 $cnxn.exec(" UPDATE surveyeds SET mail = '#{neml}' WHERE id = #{cnid}")
             end
 
-            puts 'Genero:'
+            puts 'Nuevo genero:'
             ngdr = gets.chomp
 
             if ngdr != ''
