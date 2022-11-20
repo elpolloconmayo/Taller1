@@ -31,15 +31,15 @@ class MenuSubmenuConsola
             nombre = gets.chomp
             puts "Ingrese su contraseña: "
             contraseña = gets.chomp
-            
 
-            if contraseña == 'xd' #aqui va conexion con BDD
-                puts "Bienvenido #{nombre}"
-                self.MenuPuente(nombre, contraseña)
-            else
+            begin
+                test = cnxn.exec("SELECT * FROM professionals WHERE username = '#{username}' AND pass = '#{contraseña}'")
+                test = test[0].length
+                self.MenuPuente()
+            rescue IndexError
                 puts "Usuario o contraseña incorrectos, favor de reintentar"
-                self.main
             end
+            
         when 2
             #cambiar a futuro por una funcion que reconozca los atributos de la bdd y los pida por consola
             print "\naccedio al submenu Registrarse "
@@ -87,9 +87,6 @@ class MenuSubmenuConsola
     end
 
     def MenuPaciente(usuario, contraseña)
-
-        cnxn = PG.connect(host: 'magallanes.inf.unap.cl', dbname: 'gpallero', user: 'gpallero',password: '4Fd3n2hSde')
-
         print "MENU \n1. Ingresar paciente 1 \n2. Modificar paciente 2 \n3. Realizar encuesta 3 \n4. Eliminar paciente 4 \n5. Salir 4 \nfavor ingresar opcion 1_2_3_4: ";
         opcion = (gets.chomp).to_i
         case opcion
