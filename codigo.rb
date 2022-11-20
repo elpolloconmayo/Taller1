@@ -4,6 +4,17 @@ require 'PG'
 
 cnxn = PG.connect(host: 'magallanes.inf.unap.cl', dbname: 'gpallero', user: 'gpallero',password: '4Fd3n2hSde')
 
+def imprimirsql(textosql)
+    textosql = q.textosql[0]
+    textosql = textosql.to_s
+    textosql = textosql.sub('[','')
+    textosql = textosql.sub(']','')
+    textosql = textosql.sub('"','')
+    textosql = textosql.sub('"','')
+    return textosql.split('\n')
+end
+
+
 class MenuSubmenuConsola
 
     #posible aplicacion a futuro
@@ -102,7 +113,7 @@ class MenuSubmenuConsola
             puts "Apellido paterno:"
             apellido_pp = gets.chomp
 
-            cnxn.exec("INSERT INTO surveyeds (run, dv, name, mother_sname, father_sname) VALUES ( #{run} , '#{dv}' , '#{nombre_pat}' , '#{apellido_mp}' , '#{apellido_pp}')")
+            cnxn.exec("INSERT INTO surveyeds (run, dv, name, mother_sname, father_sname) textosql ( #{run} , '#{dv}' , '#{nombre_pat}' , '#{apellido_mp}' , '#{apellido_pp}')")
 
         when 2
 

@@ -16,4 +16,4 @@ CREATE TABLE professionals (
   deleted_at timestamp with time zone DEFAULT NULL,
   PRIMARY KEY (id)
   UNIQUE (id)
-)
+);
