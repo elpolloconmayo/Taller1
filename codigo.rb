@@ -1,6 +1,7 @@
 require 'date'
 require 'PG'
 require 'encrypted_strings'
+require 'ekey.txt'
 
 $cnxn = PG.connect(host: 'magallanes.inf.unap.cl', dbname: 'gpallero', user: 'gpallero',password: '4Fd3n2hSde')
 
@@ -23,7 +24,7 @@ class MenuSubmenuConsola
 
     def main()
 
-        print "MENU \n1. Ingresar 1 \n2. Registrarse 2 \n3. Salir 3 \nfavor ingresar opcion 1_2_3: ";
+        print "MENU \n1. Ingresar \n2. Registrarse \n3. Olvido su usuario o contraseña? \n4. Salir: ";
         opcion = (gets.chomp).to_i
         case opcion
         when 1
