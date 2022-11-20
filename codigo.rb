@@ -43,22 +43,40 @@ class MenuSubmenuConsola
             
         when 2
             #cambiar a futuro por una funcion que reconozca los atributos de la bdd y los pida por consola
-            print "\naccedio al submenu Registrarse "
+            print "\naccedio al submenu Registrarse\n"
+            puts "Ingrese su rut sin digito verificador"
+            rut = gets.chomp.to_i
+            puts "Ingrese su digito verificador"
+            dv = gets.chomp
             puts'ingrese un nombre de usuario'
             nombre_usu = gets.chomp
             puts "\nIngrese su nombre"
-            nombre = gets.chomp
-            puts "Ingrese su apellido materno"
-            apellido_m = gets.chomp
+            name = gets.chomp
             puts "Ingrese su apellido paterno"
             apellido_p = gets.chomp
+            puts "Ingrese su apellido materno"
+            apellido_m = gets.chomp
+            puts "Ingrese su genero (M/F/N)"
+            genero = gets.chomp
             puts "Ingrese su correo"
             email = gets.chomp
             puts "Ingrese su contraseña"
             contraseña = gets.chomp
+            puts "Ingrese su fecha de nacimiento (19XX-XX-XX)"
+            fecha_nac = gets.chomp
+            puts "Ingrese su numero de telefono"
+            telefono = gets.chomp
+
+            begin
+                $cnxn.exec("INSERT INTO PROFESSIONALS (run, dv, name_, username, pass, email, mother_name, father_name, gender, birthday, cellphone) VALUES (#{rut} , '#{dv}', '#{name}', '#{nombre_usu}', '#{contraseña}', '#{email}', '#{apellido_m}', '#{apellido_p}', '#{genero}', '#{fecha_nac}', '#{telefono}')")
+            rescue
+                puts "Error en ingreso de datos, favor de intentar de nuevo"
+                self.menu()
+            end
+
             if false #aqui va conexion con BDD
                 puts "Usuario registrado" 
-                MenuPuente()
+                self.MenuPuente()
             else
                 puts "Error al registrar usuario, favor de intentar de nuevo"
                 self.main
@@ -77,10 +95,10 @@ class MenuSubmenuConsola
         case opcion
         when 1
             puts "accedio al submenu Gestión de pacientes"
-            MenuPaciente()
+            self.MenuPaciente()
         when 2
             puts "accedio al submenu Gestión de Encuestas"
-            MenuEncuesta()
+            self.MenuEncuesta()
         else
             print "\nerror de opcion de menu, reiniciando..."
             self.MenuPuente()
