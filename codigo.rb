@@ -1,12 +1,9 @@
 require 'date'
 require 'PG'
 require 'encrypted_strings'
-require_relative "ekey.rb"
+require_relative "ekey"
 
 $cnxn = PG.connect(host: 'magallanes.inf.unap.cl', dbname: 'gpallero', user: 'gpallero',password: '4Fd3n2hSde')
-ekf = File.open('ekey.txt','r')
-
-p ekf
 
 def imprimirsql(textosql)
     textosql = textosql.values[0]
@@ -82,7 +79,13 @@ class MenuSubmenuConsola
             telefono = gets.chomp
 
             pass = contraseña
-            ekey = 'xd'
+
+            if $ek != ''
+                ekey = $ek
+            else
+                ekey = 'default'
+            end  
+
             epss = pass.encrypt(:symmetric, :algorithm => 'des-ecb', :password => ekey)
 
             begin
@@ -100,7 +103,19 @@ class MenuSubmenuConsola
                 self.main
             end
         when 3
-            print "Saliendo..."
+            print "Para recuperar su contraseña ingrese su numero de telefono: "
+            cell = gets.chomp
+
+            if $ek != ''
+
+                recp = $cnxn.exec(" SELECT (pass) FROM professionals WHERE cellphone = '#{cell}' ")
+
+                recp = recp.values[0].to_s.decrypt(:symmetric, :algorithm => 'des-ecb', :password => $ek) 
+
+                puts 'Usted es un usuario con la llave de encriptacion, su contraseña es: ' + recp
+            else
+                puts 'Usted no tiene permisos para recuperar contraseña' 
+            end       
         else
             print "\nerror de opcion de menu, reiniciando..."
             self.main
