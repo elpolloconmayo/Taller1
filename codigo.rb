@@ -9,9 +9,8 @@ def imprimirsql(textosql)
     textosql = textosql.to_s
     textosql = textosql.sub('[','')
     textosql = textosql.sub(']','')
-    textosql = textosql.sub('"','')
-    textosql = textosql.sub('"','')
-    textosql = textosql.sub('\\\\','/')
+    textosql = textosql.gsub('"','')
+    textosql = textosql.gsub('\\\\','/')
     return textosql.split('/n')
 
 end
@@ -252,7 +251,9 @@ class MenuSubmenuConsola
             count = 0
 
             r = $cnxn.exec("SELECT (question) FROM questions Where id = #{cnide}")
+
             qsts = imprimirsql(r)
+            
             ftex = ''
 
             while count != nqut
