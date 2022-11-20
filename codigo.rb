@@ -28,7 +28,7 @@ class MenuSubmenuConsola
         when 1
             print "\naccedio al submenu Ingresar "
             puts "\nIngrese su nombre de usuario: "
-            nombre = gets.chomp
+            username = gets.chomp
             puts "Ingrese su contraseña: "
             contraseña = gets.chomp
 
@@ -38,6 +38,7 @@ class MenuSubmenuConsola
                 self.MenuPuente()
             rescue IndexError
                 puts "Usuario o contraseña incorrectos, favor de reintentar"
+                self.main()
             end
             
         when 2
@@ -57,7 +58,7 @@ class MenuSubmenuConsola
             contraseña = gets.chomp
             if false #aqui va conexion con BDD
                 puts "Usuario registrado" 
-                MenuPuente(nombre, contraseña)
+                MenuPuente()
             else
                 puts "Error al registrar usuario, favor de intentar de nuevo"
                 self.main
@@ -70,23 +71,23 @@ class MenuSubmenuConsola
         end
     end
 
-    def MenuPuente(usuario, contraseña)
+    def MenuPuente()
         print "MENU \n1. Gestión de pacientes 1 \n2. Gestión de Encuestas 2 \n3. Salir 3 \nfavor ingresar opcion 1_2_3: ";
         opcion = (gets.chomp).to_i
         case opcion
         when 1
             puts "accedio al submenu Gestión de pacientes"
-            MenuPaciente(usuario, contraseña)
+            MenuPaciente()
         when 2
             puts "accedio al submenu Gestión de Encuestas"
-            MenuEncuesta(usuario, contraseña)
+            MenuEncuesta()
         else
             print "\nerror de opcion de menu, reiniciando..."
-            self.MenuPuente(usuario, contraseña)
+            self.MenuPuente()
         end
     end
 
-    def MenuPaciente(usuario, contraseña)
+    def MenuPaciente()
         print "MENU \n1. Ingresar paciente 1 \n2. Modificar paciente 2 \n3. Realizar encuesta 3 \n4. Eliminar paciente 4 \n5. Salir 4 \nfavor ingresar opcion 1_2_3_4: ";
         opcion = (gets.chomp).to_i
         case opcion
@@ -260,7 +261,7 @@ class MenuSubmenuConsola
         end
     end
 
-    def MenuEncuesta(usuario, contraseña)
+    def MenuEncuesta()
         print "MENU \n1. Ingresar encuesta 1 \n2. Modificar encuesta 2 \n3. Eliminar encuesta 3 \n4. Salir 4 \nfavor ingresar opcion 1_2_3_4: ";
         opcion = (gets.chomp).to_i
         case opcion
@@ -274,7 +275,7 @@ class MenuSubmenuConsola
             print "Saliendo..."
         else
             print "\nerror de opcion de menu, reiniciando..."
-            self.MenuEncuesta(usuario, contraseña)
+            self.MenuEncuesta()
         end
     end
 
