@@ -61,6 +61,7 @@ class MenuSubmenuConsola
                             $q = $cnxn.exec("SELECT (id) FROM professionals WHERE username = '#{username}' AND pass = '#{gpss}'")
                             $q = $q.values[0]
                             $q = $q[0].to_i
+                            puts "\e[H\e[2J"
 
                             puts 'Bienvenido administrador: ' + "#{username}"
             
@@ -92,6 +93,7 @@ class MenuSubmenuConsola
                             $q = $cnxn.exec("SELECT (id) FROM professionals WHERE username = '#{username}' AND pass = '#{gpss}'")
                             $q = $q.values[0]
                             $q = $q[0].to_i
+                            puts "\e[H\e[2J"
 
                             puts 'Bienvenido usuario publico: ' + "#{username}"
             
@@ -165,6 +167,7 @@ class MenuSubmenuConsola
             if run != nil
                 begin
                     $cnxn.exec("INSERT INTO PROFESSIONALS (run, dv, name_, username, pass, email, mother_name, father_name, gender, birthday, cellphone) VALUES (#{run} , '#{dv}', '#{name}', '#{nombre_usu}', '#{epss}', '#{email}', '#{apellido_m}', '#{apellido_p}', '#{genero}', '#{fecha_nac}', '#{telefono}')")
+                    puts "\e[H\e[2J"
                     puts 'Usuario registrado con exito!'
                     self.main()
                 rescue Exception
@@ -174,6 +177,7 @@ class MenuSubmenuConsola
             else
                 begin
                     $cnxn.exec("INSERT INTO PROFESSIONALS (name_, username, pass, email, mother_name, father_name, gender, birthday, cellphone) VALUES ('#{name}', '#{nombre_usu}', '#{epss}', '#{email}', '#{apellido_m}', '#{apellido_p}', '#{genero}', '#{fecha_nac}', '#{telefono}')")
+                    puts "\e[H\e[2J"
                     puts 'Usuario registrado con exito!'
                     self.main()
                 rescue Exception
@@ -217,6 +221,8 @@ class MenuSubmenuConsola
         when 2
             puts "accedio al submenu Gestión de Encuestas"
             self.MenuEncuesta()
+        when 3
+            puts "Saliendo del sistema..."
         else
             print "\nerror de opcion de menu, reiniciando..."
             self.MenuPuente()
@@ -224,7 +230,7 @@ class MenuSubmenuConsola
     end
 
     def MenuPaciente()
-        print "MENU \n1. Ingresar paciente 1 \n2. Modificar paciente 2 \n3. Realizar encuesta 3 \n4. Eliminar paciente 4 \n5. volver al menu anterior 4 \nfavor ingresar opcion 1_2_3_4: "
+        print "MENU \n1. Ingresar paciente 1 \n2. Modificar paciente 2 \n3. Realizar encuesta 3 \n4. Eliminar paciente 4 \n5. volver al menu anterior 4 \nfavor ingresar opcion 1_2_3_4_5: "
         opcion = (gets.chomp).to_i
 
         case opcion
@@ -365,7 +371,17 @@ class MenuSubmenuConsola
 
             if ngdr != ''
                 $cnxn.exec(" UPDATE surveyeds SET gender = '#{ngdr}' WHERE id = #{cnid} ")
-            end     
+            end    
+
+            puts 'Desea realizar otra operacion? Y/N '
+                    
+            dee = gets.chomp
+            
+            if dee == 'Y' || dee == 'y'
+                self.MenuPaciente()
+            else
+                puts 'Gracias por su visita, cerrando sesion...'
+            end
         
         when 3
             printf 'Dispone de la id del encuestado a realizar encuesta? Y/N'
@@ -429,13 +445,13 @@ class MenuSubmenuConsola
 
             ftex = ftex.sub('\n','')
         
-        begin
+            begin
 
-            $cnxn.exec("INSERT INTO answers(answer, point, surveyeds_id, professionals_id, questions_id) VALUES('#{ftex}','100',#{cnid},#{$q},#{cnide})")
-            puts 'Datos ingresados correctamente!'
-            puts 'Desea realizar otra operacion? Y/N'
+                $cnxn.exec("INSERT INTO answers(answer, point, surveyeds_id, professionals_id, questions_id) VALUES('#{ftex}','100',#{cnid},#{$q},#{cnide})")
+                puts 'Datos ingresados correctamente!'
+                puts 'Desea realizar otra operacion? Y/N'
 
-            dee = gets.chomp
+                dee = gets.chomp
 
                 if dee == 'Y' || dee == 'y'
                     self.MenuPaciente()
@@ -443,11 +459,10 @@ class MenuSubmenuConsola
                     puts 'Gracias por su visita, cerrando sesion...'
                     exit
                 end
-
-        rescue
-            puts 'Error al ingresar la respuesta, intente nuevamente.'
-            self.MenuPaciente()    
-        end    
+            rescue
+                puts 'Error al ingresar la respuesta, intente nuevamente.'
+                self.MenuPaciente()    
+            end
         when 4
             puts 'Conoce el id del encuestado a eliminar? Y/N'
             des = gets.chomp
@@ -503,6 +518,17 @@ class MenuSubmenuConsola
                 detm = Time.now.to_s
 
                 $cnxn.exec("UPDATE surveyeds deleted_at = '#{detm}' WHERE name = #{cndn} AND mother_sname = #{cnam} AND father_sname = #{cnap}")
+            end
+
+            puts 'Desea realizar otra operacion? Y/N '
+                    
+            dee = gets.chomp
+            
+            if dee == 'Y' || dee == 'y'
+                self.MenuPaciente()
+            else
+                puts 'Gracias por su visita, cerrando sesion...'
+                exit
             end
 
         when 5
@@ -564,6 +590,7 @@ class MenuSubmenuConsola
 
             rescue Exception
                 p 'Error al crear la encuesta, intente nuevamente.'  
+                self.MenuEncuesta()
             end      
                 
         when 2
@@ -623,8 +650,19 @@ class MenuSubmenuConsola
 
                 if qsvf != ''
                     $cnxn.exec("UPDATE questions SET question = '#{fnqs}' WHERE id = #{cnem}")
-                end    
+                end
 
+                puts 'Desea realizar otra operacion? Y/N '
+                    
+                dee = gets.chomp
+                
+                if dee == 'Y' || dee == 'y'
+                    self.MenuEncuesta()
+                else
+                    puts 'Gracias por su visita, cerrando sesion...'
+                    exit
+                end
+                
             when 2
                 
                 actn = $cnxn.exec("SELECT (name_test) FROM questions WHERE id = #{cnem}")
@@ -636,6 +674,17 @@ class MenuSubmenuConsola
 
                 if nsvn != ''
                     $cnxn.exec("UPDATE questions SET name_test = '#{nsvn}' WHERE id = #{cnem}")
+                end
+
+                puts 'Desea realizar otra operacion? Y/N '
+                    
+                dee = gets.chomp
+                
+                if dee == 'Y' || dee == 'y'
+                    self.MenuEncuesta()
+                else
+                    puts 'Gracias por su visita, cerrando sesion...'
+                    exit
                 end
             
             when 3
@@ -650,7 +699,18 @@ class MenuSubmenuConsola
 
                 if ndsc != ''
                     $cnxn.exec("UPDATE questions SET description = '#{ndsc}' WHERE id = #{cnem}")
-                end    
+                end   
+
+                puts 'Desea realizar otra operacion? Y/N '
+                    
+                dee = gets.chomp
+                
+                if dee == 'Y' || dee == 'y'
+                    self.MenuEncuesta()
+                else
+                    puts 'Gracias por su visita, cerrando sesion...'
+                    exit
+                end
 
             when 4
                 self.MenuPuente()
@@ -671,8 +731,20 @@ class MenuSubmenuConsola
             dels = Time.now.to_s
             $cnxn.exec("UPDATE questions SET deleted_at = '#{dels}' WHERE id = #{cnds}")
 
+            puts 'Desea realizar otra operacion? Y/N '
+                    
+            dee = gets.chomp
+            
+            if dee == 'Y' || dee == 'y'
+                self.MenuEncuesta()
+            else
+                puts 'Gracias por su visita, cerrando sesion...'
+                exit
+            end
+
         when 4
-            print "Saliendo..."
+            print "volviendo al menu anterior..."
+            self.MenuPuente()
         else
             print "\nerror de opcion de menu, reiniciando..."
             self.MenuEncuesta()
