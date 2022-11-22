@@ -212,6 +212,7 @@ class MenuSubmenuConsola
     end
 
     def MenuPuente()
+        puts "\e[H\e[2J"
         print "MENU \n1. Gestión de pacientes 1 \n2. Gestión de Encuestas 2 \n3. Salir 3 \nfavor ingresar opcion 1_2_3: ";
         opcion = (gets.chomp).to_i
         case opcion
@@ -230,6 +231,7 @@ class MenuSubmenuConsola
     end
 
     def MenuPaciente()
+        puts "\e[H\e[2J"
         print "MENU \n1. Ingresar paciente 1 \n2. Modificar paciente 2 \n3. Realizar encuesta 3 \n4. Eliminar paciente 4 \n5. volver al menu anterior 4 \nfavor ingresar opcion 1_2_3_4_5: "
         opcion = (gets.chomp).to_i
 
@@ -541,6 +543,7 @@ class MenuSubmenuConsola
     end
 
     def MenuEncuesta()
+        puts "\e[H\e[2J"
         print "MENU \n1. Ingresar encuesta 1 \n2. Modificar encuesta 2 \n3. Eliminar encuesta 3 \n4. Volver al menu anterior 4 \nfavor ingresar opcion 1_2_3_4: ";
         opcion = (gets.chomp).to_i
         case opcion
