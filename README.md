@@ -22,6 +22,10 @@ _Se realiza en consola_
 gem install pg
 ```
 
+```
+gem install encripted_strings
+```
+
 _Y repite_
 
 ```
@@ -57,6 +61,7 @@ _Agrega notas adicionales sobre como hacer deploy_
 ## Construido con
 
 * [VisualStudioCode](https://code.visualstudio.com/download) - El editor de texto usado
+* [PostgreSQL](https://www.postgresql.org/download/) - La Base de Datos utilizada
 * [DBeaver](https://dbeaver.io/download/) - Para la gestion y creacion de la base de datos
 * [Ruby](https://www.ruby-lang.org/es/downloads/) - El lenguaje usado en el proyecto
 ## Contribuyendo
