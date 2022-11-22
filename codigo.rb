@@ -190,7 +190,18 @@ class MenuSubmenuConsola
 
                 recp = $cnxn.exec(" SELECT (pass) FROM professionals WHERE cellphone = '#{cell}' ")
 
-                recp = recp.values[0].to_s.decrypt(:symmetric, :algorithm => 'des-ecb', :password => $ek) 
+                begin
+                    recp = recp.values[0].to_s.decrypt(:symmetric, :algorithm => 'des-ecb', :password => $ek)
+                rescue Exception
+                    puts 'Error al recuperar contraseña porfavor ingrese manualmente la llave de encriptacion para la cuenta asociada (si no la ingresa se intentara desencriptar con la llave publica): '
+                    dss = gets.chomp
+                    
+                    if dss != '' && dss != nil
+                        recp = recp.values[0].to_s.decrypt(:symmetric, :algorithm => 'des-ecb', :password => dss)
+                    else
+                        recp = recp.values[0].to_s.decrypt(:symmetric, :algorithm => 'des-ecb', :password => 'public-key')    
+                    end
+                end
 
                 puts 'Usted es un usuario con la llave de encriptacion, su contraseña es: ' + recp
             else
@@ -200,7 +211,7 @@ class MenuSubmenuConsola
              
         when 4
             puts 'Saliendo del sistema'
-            exit 
+            exit!
         else
             print "\nerror de opcion de menu, reiniciando..."
             self.main()
@@ -410,6 +421,9 @@ class MenuSubmenuConsola
             count = 0
 
             r = $cnxn.exec("SELECT (question) FROM questions Where id = #{cnide}")
+            mp = $cnxn.exec("SELECT (max_point) FROM questions WHERE id = #{cnide}")
+            
+            imp = imprimirsql(mp)
 
             qsts = imprimirsql(r)
             
@@ -417,7 +431,7 @@ class MenuSubmenuConsola
 
             while count != nqut
 
-                puts qsts[count]
+                puts qsts[count] + ' Puntos maximos: ' + imp[count]
                 puts 'ingrese su respuesta:'
                 resp = gets.chomp
 
@@ -458,7 +472,7 @@ class MenuSubmenuConsola
                 begin
                     isdl = $cnxn.exec("SELECT (deleted_at) FROM surveyeds WHERE id = '#{deid}'")
                 rescue
-                    puts 'esta id de usuario no es valida, intente nuevamente.'
+                    puts 'Esta id de usuario no es valida, intente nuevamente.'
                     self.MenuPaciente()
                 end    
 
@@ -538,15 +552,16 @@ class MenuSubmenuConsola
 
 
                 ftes = ftes + '\n' + ques
-                qstn = "Pregunta #{count + 1}:"
-                fpts = qstn + fpts
+                
                 fqus = fqus + '\n' + fpts
 
                 count = count + 1
             end
 
-            ftes = ftes.sub('\n','')
             fqus = fqus.sub('\n','')
+
+            ftes = ftes.sub('\n','')
+            
 
             begin
                 $cnxn.exec("INSERT INTO questions(name_test, question, n_question, max_point) VALUES ( '#{nsur}', '#{ftes}', #{nqus}, '#{fqus}')")
