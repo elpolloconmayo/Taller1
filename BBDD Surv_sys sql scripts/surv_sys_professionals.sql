@@ -14,6 +14,6 @@ CREATE TABLE professionals (
   birthday date NOT NULL,
   cellphone varchar(12) NOT NULL,
   deleted_at timestamp with time zone DEFAULT NULL,
-  PRIMARY KEY (id)
+  PRIMARY KEY (id),
   UNIQUE (id)
 );

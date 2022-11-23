@@ -2,9 +2,10 @@ DROP TABLE IF EXISTS questions;
 
 CREATE TABLE questions (
   id serial NOT NULL,
-  name_test varchar(255) NOT NULL,
+  name_test varchar(255) DEFAULT NULL,
   question text NOT NULL,
   n_question int NOT NULL,
+  option_ text NOT NULL,
   max_point text NOT NULL,
   description varchar(255) DEFAULT NULL,
   deleted_at timestamp with time zone DEFAULT NULL,

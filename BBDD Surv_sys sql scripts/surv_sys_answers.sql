@@ -3,7 +3,6 @@ DROP TABLE IF EXISTS answers;
 CREATE TABLE answers (
   id serial NOT NULL,
   point int NOT NULL,
-  answer text DEFAULT NULL,
   prof_observation varchar(255) DEFAULT NULL,
   deleted_at timestamp with time zone DEFAULT NULL,
   PRIMARY KEY (id),
