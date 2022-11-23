@@ -260,17 +260,17 @@ class MenuSubmenuConsola
                 dv = run[8]
                 run = run[0,8].to_i
             end
-            puts "Ingrese su nombre"
+            puts "Ingrese su nombre: "
             name = gets.chomp
-            puts "Ingrese su apellido paterno"
+            puts "Ingrese su apellido paterno: "
             apellido_p = gets.chomp
-            puts "Ingrese su apellido materno"
+            puts "Ingrese su apellido materno: "
             apellido_m = gets.chomp
-            puts "Ingrese su genero (M/F/N)"
+            puts "Ingrese su genero (M/F/N): "
             genero = gets.chomp
-            puts "Ingrese su correo"
+            puts "Ingrese su correo: "
             email = gets.chomp
-            puts "Ingrese su fecha de nacimiento (YYYY-MM-DD)"
+            puts "Ingrese su fecha de nacimiento (YYYY-MM-DD):"
             fecha_nac = gets.chomp
 
             if run != nil
@@ -596,7 +596,7 @@ class MenuSubmenuConsola
 
     def MenuEncuesta()
         puts "\e[H\e[2J"
-        print "MENU \n1. Ingresar encuesta 1 \n2. Modificar encuesta 2 \n3. Eliminar encuesta 3 \n4. Volver al menu anterior 4 \nfavor ingresar opcion 1_2_3_4: ";
+        print "MENU \n1. Ingresar encuesta 1 \n2. Modificar encuesta 2 \n3. Eliminar encuesta 3 \n4. Revisar respuestas 4 \n5. Volver al menu anterior 5 \nfavor ingresar opcion 1_2_3_4_5: ";
         opcion = (gets.chomp).to_i
         case opcion
         when 1
@@ -843,6 +843,32 @@ class MenuSubmenuConsola
             end
 
         when 4
+            points = $cnxn.exec("SELECT (point) FROM answers WHERE deleted_at IS NULL")
+            points = points.values
+            observations = $cnxn.exec("SELECT prof_observation FROM answers WHERE deleted_at IS NULL")
+            observations = observations.values
+            patient = $cnxn.exec("SELECT SURVEYEDS_id FROM answers WHERE deleted_at IS NULL")
+            patient = patient.values
+            test = $cnxn.exec("SELECT QUESTIONS_id FROM answers WHERE deleted_at IS NULL")
+            test = test.values
+
+            puts patient[0].to_s
+            puts test[0].to_s
+            
+            for i in (0..(points.length-1))
+                puts "i = #{i} , points = #{points.length-1}"
+                test_names = $cnxn.exec("SELECT (name_test) FROM questions WHERE deleted_at IS NULL and id = #{test[i]};")
+                puts "aqui llege"
+                patient_names = $cnxn.exec("SELECT (name) FROM patients WHERE deleted_at IS NULL and id = #{patient[i]};")
+                puts "aqui llege 2"
+            end
+
+            puts test_names
+            puts patient_names
+
+            self.MenuPaciente()
+
+        when 5
             print "volviendo al menu anterior..."
             self.MenuPuente()
         else
