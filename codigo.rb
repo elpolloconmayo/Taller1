@@ -498,9 +498,15 @@ class MenuSubmenuConsola
         
             begin
 
-            $cnxn.exec("INSERT INTO answers(point, answer, surveyeds_id, professionals_id, questions_id) VALUES(#{fots},'#{ftex}',#{cnid},#{$q},#{cnide})")
-            puts 'Datos ingresados correctamente!'
-            puts 'Desea realizar otra operacion? Y/N'
+                $cnxn.exec("INSERT INTO answers(point, prof_observation, surveyeds_id, professionals_id, questions_id) VALUES (#{fots},'#{ftex}',#{cnid},#{$q},#{cnide})")
+
+                puts 'Datos ingresados correctamente!'
+
+                puts 'Puntos obtenidos: ' + "#{fots}"
+
+                puts 'Puntos maximos: ' + "#{imps}"
+
+                puts 'Desea realizar otra operacion? Y/N'
 
                 dee = gets.chomp
 
@@ -510,11 +516,6 @@ class MenuSubmenuConsola
                     puts 'Gracias por su visita, cerrando sesion...'
                     exit!
                 end
-
-            rescue
-                puts 'Error al ingresar la respuesta, intente nuevamente.'
-                self.MenuPaciente()    
-            end
         when 4
             puts 'Conoce el id del encuestado a eliminar? Y/N: '
             des = gets.chomp
