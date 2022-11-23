@@ -33,7 +33,7 @@ class MenuSubmenuConsola
         opcion = (gets.chomp).to_i
         case opcion
         when 1
-            print "\naccedio al submenu Ingresar "
+            print "\nAccedio al submenu Ingresar "
             puts "\nIngrese su nombre de usuario: "
             username = gets.chomp
             puts "Ingrese su contraseña: "
@@ -43,8 +43,11 @@ class MenuSubmenuConsola
                 ipss = $cnxn.exec("SELECT (pass) FROM professionals WHERE username = '#{username}'")
                 ipss = ipss.values[0]
                 ipss = ipss[0]
-            rescue Exception
+            rescue NoMethodError
                 puts 'Este nombre de usuario no existe favor de intentar nuevamente'
+                self.main()
+            rescue PG::ConnectionBad
+                puts 'Error de conexion con la base de datos'
                 self.main()
             end
 
@@ -111,7 +114,7 @@ class MenuSubmenuConsola
             
         when 2
             
-            print "\naccedio al submenu Registrarse\n"
+            print "\nAccedio al submenu Registrarse\n"
 
             if defined?($ek) == nil
 
@@ -126,7 +129,7 @@ class MenuSubmenuConsola
                 end 
             end       
 
-            puts 'rut con digito verificador (de no tener rut dejar en blanco):'
+            puts 'Rut con digito verificador Ej: 114447774 (de no tener rut dejar en blanco): '
             run = gets.chomp
             if run == ''
                 run = nil
@@ -135,23 +138,23 @@ class MenuSubmenuConsola
                 dv = run[8]
                 run = run[0,8].to_i
             end
-            puts'ingrese un nombre de usuario'
+            puts'Ingrese un nombre de usuario: '
             nombre_usu = gets.chomp
-            puts "\nIngrese su nombre"
+            puts "\nIngrese su nombre: "
             name = gets.chomp
-            puts "Ingrese su apellido paterno"
+            puts "Ingrese su apellido paterno: "
             apellido_p = gets.chomp
-            puts "Ingrese su apellido materno"
+            puts "Ingrese su apellido materno: "
             apellido_m = gets.chomp
-            puts "Ingrese su genero (M/F/N)"
+            puts "Ingrese su genero (M/F/N): "
             genero = gets.chomp
-            puts "Ingrese su correo"
+            puts "Ingrese su correo: "
             email = gets.chomp
-            puts "Ingrese su contraseña"
+            puts "Ingrese su contraseña: "
             contraseña = gets.chomp
-            puts "Ingrese su fecha de nacimiento (YYYY-MM-DD)"
+            puts "Ingrese su fecha de nacimiento (YYYY-MM-DD): "
             fecha_nac = gets.chomp
-            puts "Ingrese su numero de telefono"
+            puts "Ingrese su numero de teléfono (+56944445555): "
             telefono = gets.chomp
 
             pass = contraseña
@@ -197,7 +200,7 @@ class MenuSubmenuConsola
                 begin
                     recp = recp.values[0].to_s.decrypt(:symmetric, :algorithm => 'des-ecb', :password => $ek)
                 rescue Exception
-                    puts 'Error al recuperar contraseña porfavor ingrese manualmente la llave de encriptacion para la cuenta asociada (si no la ingresa se intentara desencriptar con la llave publica): '
+                    puts 'Error al recuperar contraseña, porfavor ingrese manualmente la llave de encriptacion para la cuenta asociada (si no la ingresa se intentara desencriptar con la llave publica): '
                     dss = gets.chomp
                     
                     if dss != '' && dss != nil
@@ -217,14 +220,14 @@ class MenuSubmenuConsola
             puts 'Saliendo del sistema'
             exit!
         else
-            print "\nerror de opcion de menu, reiniciando..."
+            print "\nError de opcion de menu, reiniciando..."
             self.main()
         end
     end
 
     def MenuPuente()
         puts "\e[H\e[2J"
-        print "MENU \n1. Gestión de pacientes 1 \n2. Gestión de Encuestas 2 \n3. Salir 3 \nfavor ingresar opcion 1_2_3: ";
+        print "MENU \n1. Gestión de pacientes 1 \n2. Gestión de Encuestas 2 \n3. Salir 3 \nFavor ingresar opcion 1_2_3: ";
         opcion = (gets.chomp).to_i
         case opcion
         when 1
@@ -251,7 +254,7 @@ class MenuSubmenuConsola
         when 1
 
             puts 'Ingrese los siguientes datos del encuestado:'
-            puts 'rut con digito verificador (de no tener rut dejar en blanco):'
+            puts "Rut con digito verificador Ej: 114447774 (de no tener rut dejar en blanco): "
             run = gets.chomp
             if run == ''
                 run = nil
@@ -270,7 +273,7 @@ class MenuSubmenuConsola
             genero = gets.chomp
             puts "Ingrese su correo: "
             email = gets.chomp
-            puts "Ingrese su fecha de nacimiento (YYYY-MM-DD):"
+            puts "Ingrese su fecha de nacimiento (YYYY-MM-DD): "
             fecha_nac = gets.chomp
 
             if run != nil
@@ -326,11 +329,11 @@ class MenuSubmenuConsola
                 cnid = gets.chomp
 
             else    
-                puts 'Nombre'
+                puts 'Nombre: '
                 cndn = gets.chomp
-                puts 'Apellido materno'
+                puts 'Apellido materno: '
                 cnam = gets.chomp
-                puts 'Apellido paterno'
+                puts 'Apellido paterno: '
                 cnap = gets.chomp
 
                 cond = $cnxn.exec("SELECT (id) FROM profetionals WHERE name = #{cndn} AND mother_sname = #{cnam} AND father_sname = #{cnap}")
@@ -351,35 +354,35 @@ class MenuSubmenuConsola
                 $cnxn.exec("UPDATE surveyeds SET run = #{nrut}, dv = '#{nwdv}' WHERE id = #{cnid};")
             end   
 
-            puts 'Nuevo nombre:'
+            puts 'Nuevo nombre: '
             nnam = gets.chomp
 
             if nnam != ''
                 $cnxn.exec("UPDATE surveyeds SET name_ = '#{nnam}' WHERE id = #{cnid};")
             end   
 
-            puts 'Nuevo apellido materno:'
+            puts 'Nuevo apellido materno: '
             nmsn = gets.chomp
 
             if nmsn != ''
                 $cnxn.exec("UPDATE surveyeds SET mother_sname = '#{nmsn}' WHERE id = #{cnid};")
             end    
 
-            puts 'Nuevo apellido paterno:'
+            puts 'Nuevo apellido paterno: '
             nfsn = gets.chomp
 
             if nfsn != ''
                 $cnxn.exec("UPDATE surveyeds SET father_sname = '#{nfsn}' WHERE id = #{cnid};")
             end
             
-            puts 'Nuevo email:'
+            puts 'Nuevo email: '
             neml = gets.chomp
 
             if neml != ''
                 $cnxn.exec(" UPDATE surveyeds SET mail = '#{neml}' WHERE id = #{cnid}")
             end
 
-            puts 'Nuevo genero:'
+            puts 'Nuevo genero: '
             ngdr = gets.chomp
 
             if ngdr != ''
@@ -600,9 +603,9 @@ class MenuSubmenuConsola
         opcion = (gets.chomp).to_i
         case opcion
         when 1
-            puts 'cuantas preguntas desea que tenga la encuesta?'
+            puts '¿Cuántas preguntas desea que tenga la encuesta?: '
             nqus = gets.chomp.to_i
-            puts 'Ingrese el nombre con el cual guardara la encuesta:'
+            puts 'Ingrese el nombre con el cual guardara la encuesta: '
             nsur = gets.chomp
 
             count = 0
@@ -649,10 +652,10 @@ class MenuSubmenuConsola
 
             ftes = ftes.sub('\n','')
 
-            puts 'Desea añadir alguna descricion a esta encuesta? Y/N'
+            puts 'Desea añadir alguna descricion a esta encuesta? Y/N: '
             dees = gets.chomp
             if dees == 'Y' || dees == 'y'
-                puts 'Ingrese la descripcion a continuacion:'
+                puts 'Ingrese la descripcion a continuacion: '
                 desc = gets.chomp
             else
                 desc = nil 
@@ -661,7 +664,7 @@ class MenuSubmenuConsola
             begin
                 $cnxn.exec("INSERT INTO questions(option_, name_test, question, n_question, max_point, description, professionals_id) VALUES ('#{falt}', '#{nsur}', '#{ftes}', #{nqus}, '#{fqus}', '#{desc}', #{$q})")
 
-                puts 'Desea realizar otra operacion? Y/N'
+                puts 'Desea realizar otra operacion? Y/N: '
 
                     dee = gets.chomp
 
@@ -679,11 +682,11 @@ class MenuSubmenuConsola
                 
         when 2
 
-            puts 'Dispone de la id de encuesta?'
+            puts '¿Dispone de la id de encuesta?: Y/N: '
             des = gets.chomp
 
             if des == 'Y' || des == 'y'
-                puts 'Ingrese la id de la encuesta a modificar:'
+                puts 'Ingrese la id de la encuesta a modificar: '
                 cnem = gets.chomp
             else
                 puts 'Ingrese el nombre de la encuesta:'
@@ -698,7 +701,7 @@ class MenuSubmenuConsola
                 cnem = qr
             end
 
-            puts 'Que informacion desea modificar?'
+            puts '¿Que informacion desea modificar?'
             puts '1.-Preguntas 2.-Nombre de la encuesta 3.-Observacion 4.-Ninguna'
 
             ds = gets.chomp.to_i
@@ -720,7 +723,7 @@ class MenuSubmenuConsola
 
                 while count != nqut
                     puts "Pregunta actual: #{qsts[count]} "
-                    puts 'Nueva pregunta (de no querer modificar dejar en blanco):'
+                    puts 'Nueva pregunta (de no querer modificar dejar en blanco): '
                     nqst = gets.chomp
 
                     if nqst == ''
@@ -809,14 +812,14 @@ class MenuSubmenuConsola
             end
 
         when 3
-            puts 'Dispone de la id de encuesta?'
+            puts 'Dispone de la id de encuesta? Y/N: '
             des = gets.chomp
 
             if des == 'Y' || des == 'y'
-                puts 'Ingrese la id de la encuesta a eliminar:'
+                puts 'Ingrese la id de la encuesta a eliminar: '
                 cnds = gets.chomp
             else
-                puts 'Ingrese el nombre de la encuesta:'
+                puts 'Ingrese el nombre de la encuesta: '
                 ennm = gets.chomp
 
                 qr = $cnxn.exec("SELECT (id) FROM questions WHERE name_test = '#{ennm}'")
@@ -874,10 +877,10 @@ class MenuSubmenuConsola
             end
 
         when 5
-            print "volviendo al menu anterior..."
+            print "Volviendo al menu anterior..."
             self.MenuPuente()
         else
-            print "\nerror de opcion de menu, reiniciando..."
+            print "\nError de opcion de menu, reiniciando..."
             self.MenuEncuesta()
         end
     end
