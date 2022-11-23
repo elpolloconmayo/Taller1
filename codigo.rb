@@ -838,19 +838,24 @@ class MenuSubmenuConsola
 
             puts patient[0].to_s
             puts test[0].to_s
+            $cnxn.reset()
             
             for i in (0..(points.length-1))
-                puts "i = #{i} , points = #{points.length-1}"
-                test_names = $cnxn.exec("SELECT (name_test) FROM questions WHERE deleted_at IS NULL and id = #{test[i]};")
-                puts "aqui llege"
-                patient_names = $cnxn.exec("SELECT (name) FROM patients WHERE deleted_at IS NULL and id = #{patient[i]};")
-                puts "aqui llege 2"
+                puts "a"
+                test_names[i] = $cnxn.exec("SELECT (name_test) FROM questions WHERE deleted_at IS NULL and id = #{test[i][0]}")
+                patient_names[i] = $cnxn.exec("SELECT (name_) FROM surveyeds WHERE deleted_at IS NULL and id = #{patient[i][0]}")
             end
 
-            puts test_names
-            puts patient_names
-
-            self.MenuPaciente()
+            puts 'Desea realizar otra operacion? Y/N:  '
+                    
+            dee = gets.chomp
+            
+            if dee == 'Y' || dee == 'y'
+                self.MenuEncuesta()
+            else
+                puts 'Gracias por su visita, cerrando sesion...'
+                exit
+            end
 
         when 5
             print "volviendo al menu anterior..."
