@@ -440,39 +440,71 @@ class MenuSubmenuConsola
 
             r = $cnxn.exec("SELECT (question) FROM questions Where id = #{cnide}")
             mp = $cnxn.exec("SELECT (max_point) FROM questions WHERE id = #{cnide}")
+
+            altr = $cnxn.exec("SELECT (option_) FROM questions WHERE id = #{cnide}")
             
             imp = imprimirsql(mp)
 
             qsts = imprimirsql(r)
+
+            altr = imprimirsql(altr)
             
             fots = 0
+            imps = 0
+            smp = 0
             ftex = ''
 
             while count != nqut
 
-                puts qsts[count] + ' Puntos maximos: ' + imp[count]
-                puts 'ingrese la respuesta:'
-                resp = gets.chomp
-                puts 'ingrese el puntaje obtenido:'
-                opts = gets.chomp.to_i
+                cnt = 0
+
+                impa = imp[count].to_i
+
+                smp = impa - 1 
+
+                imps = imps + (impa - 1)
+
+                puts qsts[count] + ' Puntos maximos: ' + "#{smp}"
+
+                while cnt != impa
+
+                    puts "Opcion #{cnt + 1}: " + "#{altr[cnt]}"
+
+                    cnt = cnt + 1
+
+                end 
+
+                resp = gets.chomp.to_i
+                resp = resp - 1
                 
-                fots = fots + opts
-                ftex = ftex + '\n' + resp
+                fots = fots + resp
 
                 count = count + 1
 
             end
 
-            
+            puts 'Desea añadir alguna observacion?'
+            dse = gets.chomp
+            if dse == 'Y' || dse == 'y'
+                puts 'Ingrese la observacion a continuacion: '
+                ftex = gets.chomp
+            else
+                ftex = nil
+            end        
 
             fots = fots.to_i
-            ftex = ftex.sub('\n','')
         
             begin
 
-            $cnxn.exec("INSERT INTO answers(point, answer, surveyeds_id, professionals_id, questions_id) VALUES(#{fots},'#{ftex}',#{cnid},#{$q},#{cnide})")
-            puts 'Datos ingresados correctamente!'
-            puts 'Desea realizar otra operacion? Y/N'
+                $cnxn.exec("INSERT INTO answers(point, prof_observation, surveyeds_id, professionals_id, questions_id) VALUES (#{fots},'#{ftex}',#{cnid},#{$q},#{cnide})")
+
+                puts 'Datos ingresados correctamente!'
+
+                puts 'Puntos obtenidos: ' + "#{fots}"
+
+                puts 'Puntos maximos: ' + "#{imps}"
+
+                puts 'Desea realizar otra operacion? Y/N'
 
                 dee = gets.chomp
 
@@ -480,8 +512,9 @@ class MenuSubmenuConsola
                     self.MenuPaciente()
                 else
                     puts 'Gracias por su visita, cerrando sesion...'
-                    exit
+                    exit!
                 end
+
             rescue
                 puts 'Error al ingresar la respuesta, intente nuevamente.'
                 self.MenuPaciente()    
@@ -579,13 +612,31 @@ class MenuSubmenuConsola
             fpts = ''
             fqus = ''
             qstn = ''
+            falt = ''
+            mxpt = 0
 
             while count != nqus
                 puts "Ingrese la pregunta numero #{count + 1}:"
                 ques = gets.chomp
-                puts 'Ingrese el puntaje maximo de esta pregunta:'
+                puts 'Ingrese el numero de alternativas de esta pregunta (puntaje maximo):'
                 fpts = gets.chomp
 
+                mxpt = fpts
+
+                mxpt = mxpt.to_i
+
+                cout = 0
+
+                while cout != mxpt
+
+                    puts "Ingrese la alternativa N°#{cout + 1}: "
+                    alts = gets.chomp
+
+                    falt = falt + '\n' + alts
+
+                    cout = cout + 1 
+                    
+                end
 
                 ftes = ftes + '\n' + ques
                 
@@ -594,13 +645,25 @@ class MenuSubmenuConsola
                 count = count + 1
             end
 
+            falt = falt.sub('\n','')
+
             fqus = fqus.sub('\n','')
 
             ftes = ftes.sub('\n','')
-            
+
+            puts 'Desea añadir alguna descricion a esta encuesta? Y/N'
+            dees = gets.chomp
+            if dees == 'Y' || dees == 'y'
+                puts 'Ingrese la descripcion a continuacion:'
+                desc = gets.chomp
+            else
+                desc = nil 
+            end
 
             begin
-                $cnxn.exec("INSERT INTO questions(name_test, question, n_question, max_point) VALUES ( '#{nsur}', '#{ftes}', #{nqus}, '#{fqus}')")
+                $cnxn.exec("INSERT INTO questions(option_, name_test, question, n_question, max_point, description, professionals_id) VALUES ('#{falt}', '#{nsur}', '#{ftes}', #{nqus}, '#{fqus}', '#{desc}', #{$q})")
+
+                puts 'Datos ingresador con exito!'
 
                 puts 'Desea realizar otra operacion? Y/N'
 
