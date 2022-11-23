@@ -115,7 +115,7 @@ class MenuSubmenuConsola
 
             if defined?($ek) == nil
 
-                puts 'Este usuario sera creado con el sistema publico, esto significa que la llave de cifrado de contraseña es publica esta seguro de continuar? Y/N '
+                puts 'Este usuario sera creado con el sistema publico, esto significa que la llave de cifrado de contraseña es publica esta seguro de continuar? Y/N:  '
                 dci = gets.chomp
                 
                 if dci == 'Y' || dci == 'y'
@@ -278,7 +278,7 @@ class MenuSubmenuConsola
                 begin
                     $cnxn.exec("INSERT INTO surveyeds (run, dv, name_, father_sname, mother_sname, gender, birthday, mail) values ( #{run} , '#{dv}', '#{name}', '#{apellido_p}', '#{apellido_m}', '#{genero}', '#{fecha_nac}', '#{email}')")
                     puts 'Datos ingresado correctamente!'
-                    puts 'Desea realizar otra operacion? Y/N '
+                    puts 'Desea realizar otra operacion? Y/N:  '
                     dee = gets.chomp
 
                     if dee == 'Y' || dee == 'y'
@@ -299,7 +299,7 @@ class MenuSubmenuConsola
                     $cnxn.exec("INSERT INTO surveyeds (name_, father_sname, mother_sname, gender, birthday, mail) values ( '#{name}', '#{apellido_p}', '#{apellido_m}', '#{genero}', '#{fecha_nac}', '#{email}')")
                     puts 'Datos ingresados correctamente!'
 
-                    puts 'Desea realizar otra operacion? Y/N '
+                    puts 'Desea realizar otra operacion? Y/N:  '
                     
                     dee = gets.chomp
                     
@@ -318,7 +318,7 @@ class MenuSubmenuConsola
 
         when 2
 
-            printf 'Dispone de la id del encuestado a modificar? Y/N'
+            printf 'Dispone de la id del encuestado a modificar? Y/N: '
             des = gets.chomp
             if des == 'Y' || des == 'y'
 
@@ -386,7 +386,7 @@ class MenuSubmenuConsola
                 $cnxn.exec(" UPDATE surveyeds SET gender = '#{ngdr}' WHERE id = #{cnid} ")
             end    
 
-            puts 'Desea realizar otra operacion? Y/N '
+            puts 'Desea realizar otra operacion? Y/N:  '
                     
             dee = gets.chomp
             
@@ -397,7 +397,9 @@ class MenuSubmenuConsola
             end
         
         when 3
-            printf 'Dispone de la id del encuestado a realizar encuesta? Y/N'
+            puts "\e[H\e[2J"
+            puts 'Ingresó a la opcion de realizar encuesta\n'
+            printf 'Dispone de la id del encuestado a realizar encuesta? Y/N: '
             des = gets.chomp
             if des == 'Y' || des == 'y'
                 printf 'Ingrese el id:'
@@ -417,7 +419,7 @@ class MenuSubmenuConsola
                 cnid = value
             end
 
-            printf "dispone de la id de la encuesta a realizar? Y/N"
+            printf "dispone de la id de la encuesta a realizar? Y/N: "
             des = gets.chomp
             if des == 'Y' || des == 'y'
                 printf 'Ingrese el id:'
@@ -448,9 +450,14 @@ class MenuSubmenuConsola
             fots = 0
             ftex = ''
 
+            puts "\e[H\e[2J"
+            puts "Atención: \nEl sistema primero consultará sobre observaciones respecto a las respuestas, estas observaciones solo deben ser ingresadas en caso de considerarse necesario, luego de rellenar o saltar (Enter) las observaciones, preguntará el puntaje obtenido en la pregunta, por favor recordar no superar el puntaje máximo desplegado en pantalla, en caso de no ingresar puntaje, se considerará 0. \n\nPresione enter para continuar"
+            continue = gets.chomp            
+            puts "\e[H\e[2J"
+
             while count != nqut
 
-                puts qsts[count] + ' Puntos maximos: ' + imp[count]
+                puts qsts[count] + ' Puntos maximos: ' + (imp[count])[-1]
                 puts 'ingrese la respuesta:'
                 resp = gets.chomp
                 puts 'ingrese el puntaje obtenido:'
@@ -472,7 +479,7 @@ class MenuSubmenuConsola
 
             $cnxn.exec("INSERT INTO answers(point, answer, surveyeds_id, professionals_id, questions_id) VALUES(#{fots},'#{ftex}',#{cnid},#{$q},#{cnide})")
             puts 'Datos ingresados correctamente!'
-            puts 'Desea realizar otra operacion? Y/N'
+            puts 'Desea realizar otra operacion? Y/N: '
 
                 dee = gets.chomp
 
@@ -487,7 +494,7 @@ class MenuSubmenuConsola
                 self.MenuPaciente()    
             end
         when 4
-            puts 'Conoce el id del encuestado a eliminar? Y/N'
+            puts 'Conoce el id del encuestado a eliminar? Y/N: '
             des = gets.chomp
             if des == 'Y' || des == 'y'
                 puts 'Porfavor ingrese el id del encuestado:'
@@ -514,7 +521,7 @@ class MenuSubmenuConsola
 
                     $cnxn.exec("UPDATE surveyeds SET deleted_at = '#{detm}' WHERE id = #{deid}")
 
-                    puts 'Desea realizar otra operacion? Y/N'
+                    puts 'Desea realizar otra operacion? Y/N: '
 
                     dee = gets.chomp
 
@@ -543,7 +550,7 @@ class MenuSubmenuConsola
                 $cnxn.exec("UPDATE surveyeds deleted_at = '#{detm}' WHERE name = #{cndn} AND mother_sname = #{cnam} AND father_sname = #{cnap}")
             end
 
-            puts 'Desea realizar otra operacion? Y/N '
+            puts 'Desea realizar otra operacion? Y/N:  '
                     
             dee = gets.chomp
             
@@ -602,7 +609,7 @@ class MenuSubmenuConsola
             begin
                 $cnxn.exec("INSERT INTO questions(name_test, question, n_question, max_point) VALUES ( '#{nsur}', '#{ftes}', #{nqus}, '#{fqus}')")
 
-                puts 'Desea realizar otra operacion? Y/N'
+                puts 'Desea realizar otra operacion? Y/N: '
 
                     dee = gets.chomp
 
@@ -677,7 +684,7 @@ class MenuSubmenuConsola
                     $cnxn.exec("UPDATE questions SET question = '#{fnqs}' WHERE id = #{cnem}")
                 end
 
-                puts 'Desea realizar otra operacion? Y/N '
+                puts 'Desea realizar otra operacion? Y/N:  '
                     
                 dee = gets.chomp
                 
@@ -701,7 +708,7 @@ class MenuSubmenuConsola
                     $cnxn.exec("UPDATE questions SET name_test = '#{nsvn}' WHERE id = #{cnem}")
                 end
 
-                puts 'Desea realizar otra operacion? Y/N '
+                puts 'Desea realizar otra operacion? Y/N:  '
                     
                 dee = gets.chomp
                 
@@ -726,7 +733,7 @@ class MenuSubmenuConsola
                     $cnxn.exec("UPDATE questions SET description = '#{ndsc}' WHERE id = #{cnem}")
                 end   
 
-                puts 'Desea realizar otra operacion? Y/N '
+                puts 'Desea realizar otra operacion? Y/N:  '
                     
                 dee = gets.chomp
                 
@@ -756,7 +763,7 @@ class MenuSubmenuConsola
             dels = Time.now.to_s
             $cnxn.exec("UPDATE questions SET deleted_at = '#{dels}' WHERE id = #{cnds}")
 
-            puts 'Desea realizar otra operacion? Y/N '
+            puts 'Desea realizar otra operacion? Y/N:  '
                     
             dee = gets.chomp
             
