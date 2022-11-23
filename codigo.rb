@@ -516,6 +516,7 @@ class MenuSubmenuConsola
                     puts 'Gracias por su visita, cerrando sesion...'
                     exit!
                 end
+            end    
         when 4
             puts 'Conoce el id del encuestado a eliminar? Y/N: '
             des = gets.chomp
