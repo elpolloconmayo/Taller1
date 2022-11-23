@@ -8,6 +8,8 @@ rescue Exception
     puts 'Usted ah ingresado al sistema con permisos publicos, bienvenido!'   
 end
 
+$cnxn = PG.connect(host: 'magallanes.inf.unap.cl', dbname: 'gpallero', user: 'gpallero',password: '4Fd3n2hSde')
+
 def imprimirsql(textosql)
     textosql = textosql.values[0]
     textosql = textosql.to_s
@@ -833,18 +835,22 @@ class MenuSubmenuConsola
             patient = patient.values
             test = $cnxn.exec("SELECT QUESTIONS_id FROM answers WHERE deleted_at IS NULL")
             test = test.values
-            puts points.to_s
-            puts observations.to_s
-            puts patient.to_s
-            puts test.to_s
+
+            puts patient[0].to_s
+            puts test[0].to_s
             
-            for i in 0..points.length-1
-                test[i] = ($cnxn.exec("SELECT name_test FROM questions WHERE deleted_at IS NULL and id = #{test[i]}")).values[0]
-                patient[i] = ($cnxn.exec("SELECT name FROM patients WHERE deleted_at IS NULL and id = #{patient[i]}")).values[0]
+            for i in (0..(points.length-1))
+                puts "i = #{i} , points = #{points.length-1}"
+                test_names = $cnxn.exec("SELECT (name_test) FROM questions WHERE deleted_at IS NULL and id = #{test[i]};")
+                puts "aqui llege"
+                patient_names = $cnxn.exec("SELECT (name) FROM patients WHERE deleted_at IS NULL and id = #{patient[i]};")
+                puts "aqui llege 2"
             end
 
-            puts test
-            puts patient
+            puts test_names
+            puts patient_names
+
+            self.MenuPaciente()
 
         when 5
             print "volviendo al menu anterior..."
