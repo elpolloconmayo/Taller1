@@ -687,7 +687,15 @@ class MenuSubmenuConsola
                 cnem = gets.chomp
             else
                 puts 'Ingrese el nombre de la encuesta:'
-                #recordar hacer esto xd
+                ennm = gets.chomp
+
+                qr = $cnxn.exec("SELECT (id) FROM questions WHERE name_test = '#{ennm}'")
+
+                qr = qr.values[0]
+
+                qr = qr[0]
+
+                cnem = qr
             end
 
             puts 'Que informacion desea modificar?'
@@ -809,7 +817,15 @@ class MenuSubmenuConsola
                 cnds = gets.chomp
             else
                 puts 'Ingrese el nombre de la encuesta:'
-                #recordar hacer esto xd
+                ennm = gets.chomp
+
+                qr = $cnxn.exec("SELECT (id) FROM questions WHERE name_test = '#{ennm}'")
+
+                qr = qr.values[0]
+
+                qr = qr[0]
+
+                cnem = qr
             end
 
             dels = Time.now.to_s
