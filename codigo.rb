@@ -398,7 +398,7 @@ class MenuSubmenuConsola
         
         when 3
             puts "\e[H\e[2J"
-            puts 'Ingresó a la opcion de realizar encuesta\n'
+            puts 'Ingresó a la opcion de realizar encuesta'
             printf 'Dispone de la id del encuestado a realizar encuesta? Y/N: '
             des = gets.chomp
             if des == 'Y' || des == 'y'
@@ -450,14 +450,9 @@ class MenuSubmenuConsola
             fots = 0
             ftex = ''
 
-            puts "\e[H\e[2J"
-            puts "Atención: \nEl sistema primero consultará sobre observaciones respecto a las respuestas, estas observaciones solo deben ser ingresadas en caso de considerarse necesario, luego de rellenar o saltar (Enter) las observaciones, preguntará el puntaje obtenido en la pregunta, por favor recordar no superar el puntaje máximo desplegado en pantalla, en caso de no ingresar puntaje, se considerará 0. \n\nPresione enter para continuar"
-            continue = gets.chomp            
-            puts "\e[H\e[2J"
-
             while count != nqut
 
-                puts qsts[count] + ' Puntos maximos: ' + (imp[count])[-1]
+                puts qsts[count] + ' Puntos maximos: ' + (imp[count])
                 puts 'ingrese la respuesta:'
                 resp = gets.chomp
                 puts 'ingrese el puntaje obtenido:'
