@@ -851,17 +851,17 @@ class MenuSubmenuConsola
             patient = patient.values
             test = $cnxn.exec("SELECT QUESTIONS_id FROM answers WHERE deleted_at IS NULL")
             test = test.values
-
-            puts patient[0].to_s
-            puts test[0].to_s
-            $cnxn.reset()
+            test_names = Array.new(points.length)
+            patient_names = Array.new(points.length)
             
             for i in (0..(points.length-1))
-                puts "a"
-                test_names[i] = $cnxn.exec("SELECT (name_test) FROM questions WHERE deleted_at IS NULL and id = #{test[i][0]}")
-                patient_names[i] = $cnxn.exec("SELECT (name_) FROM surveyeds WHERE deleted_at IS NULL and id = #{patient[i][0]}")
+                test_names[i] = ($cnxn.exec("SELECT (name_test) FROM questions WHERE deleted_at IS NULL and id = #{test[i][0]}")).values
+                patient_names[i] = ($cnxn.exec("SELECT (name_) FROM surveyeds WHERE deleted_at IS NULL and id = #{patient[i][0]}")).values
             end
 
+            for i in (0..(points.length-1))
+                puts "Paciente: #{patient_names[i][0][0]} - Test: #{test_names[i][0][0]} - Puntaje: #{points[i][0]} - Observacion: #{observations[i][0]}"
+            end
             puts 'Desea realizar otra operacion? Y/N:  '
                     
             dee = gets.chomp
