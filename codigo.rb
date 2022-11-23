@@ -383,7 +383,7 @@ class MenuSubmenuConsola
             des = gets.chomp
             if des == 'Y' || des == 'y'
                 printf 'Ingrese el id:'
-                cnid = gets.chomp
+                cnid = gets.chomp.to_i
 
             else
                 printf 'Favor de ingresar el nombre: '
@@ -403,7 +403,7 @@ class MenuSubmenuConsola
             des = gets.chomp
             if des == 'Y' || des == 'y'
                 printf 'Ingrese el id:'
-                cnide = gets.chomp
+                cnide = gets.chomp.to_i
             else
                 printf 'Favor de ingresar el nombre de la encuesta: '
                 cndne = gets.chomp
@@ -427,25 +427,32 @@ class MenuSubmenuConsola
 
             qsts = imprimirsql(r)
             
+            fots = 0
             ftex = ''
 
             while count != nqut
 
                 puts qsts[count] + ' Puntos maximos: ' + imp[count]
-                puts 'ingrese su respuesta:'
+                puts 'ingrese la respuesta:'
                 resp = gets.chomp
-
+                puts 'ingrese el puntaje obtenido:'
+                opts = gets.chomp.to_i
+                
+                fots = fots + opts
                 ftex = ftex + '\n' + resp
 
                 count = count + 1
 
             end
 
+            
+
+            fots = fots.to_i
             ftex = ftex.sub('\n','')
         
         begin
 
-            $cnxn.exec("INSERT INTO answers(answer, point, surveyeds_id, professionals_id, questions_id) VALUES('#{ftex}','100',#{cnid},#{$q},#{cnide})")
+            $cnxn.exec("INSERT INTO answers(point, answer, surveyeds_id, professionals_id, questions_id) VALUES(#{fots},'#{ftex}',#{cnid},#{$q},#{cnide})")
             puts 'Datos ingresados correctamente!'
             puts 'Desea realizar otra operacion? Y/N'
 
