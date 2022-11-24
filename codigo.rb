@@ -460,6 +460,7 @@ class MenuSubmenuConsola
             ftex = ''
 
             while count != nqut
+                puts "\e[H\e[2J"
 
                 cnt = 0
 
@@ -617,6 +618,7 @@ class MenuSubmenuConsola
             mxpt = 0
 
             while count != nqus
+                puts "\e[H\e[2J"
                 puts "Ingrese la pregunta numero #{count + 1}:"
                 ques = gets.chomp
                 puts 'Ingrese el numero de alternativas de esta pregunta (puntaje maximo):'
