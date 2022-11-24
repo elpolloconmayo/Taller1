@@ -29,7 +29,7 @@ gem install encripted_strings
 
 ## Conexión
 
-_Importante: mantener acceso a internet con una red que permita la conexión a servidores_
+_Importante: mantener acceso a internet con una red que permita conexión SSL_
 
 ## Autores
 
