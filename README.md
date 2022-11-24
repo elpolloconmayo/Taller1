@@ -2,7 +2,7 @@
 
 _Es un sistema en el cual se permitira la creacion de un test de N preguntas dependiendo de lo que considere correcto el profesional que esta a cargo de la encuesta en cuestion._
 
-## funcionamiento local
+## Funcionamiento local
 
 ### Pre-requisitos
 
@@ -27,9 +27,9 @@ gem install encripted_strings
 * [Ruby](https://www.ruby-lang.org/es/downloads/) - El lenguaje usado en el proyecto
 ## Contribuyendo
 
-## Wiki 
+## Conexión
 
-## Versionado 
+_Importante: mantener acceso a internet con una red que permita la conexión a servidores_
 
 ## Autores
 
