@@ -458,13 +458,13 @@ class MenuSubmenuConsola
             imps = 0
             smp = 0
             ftex = ''
-
+            cnt = 0
+            acum = 0
             while count != nqut
                 puts "\e[H\e[2J"
-
-                cnt = 0
-
+                cnt1 = 0
                 impa = imp[count].to_i
+                acum = acum + impa
 
                 smp = impa - 1 
 
@@ -472,10 +472,10 @@ class MenuSubmenuConsola
 
                 puts qsts[count] + ' Puntos maximos: ' + "#{smp}"
 
-                while cnt != impa
+                while cnt != acum
 
-                    puts "Opcion #{cnt + 1}: " + "#{altr[cnt]}"
-
+                    puts "Opcion #{cnt1 + 1}: " + "#{altr[cnt]}"
+                    cnt1 = cnt1 + 1
                     cnt = cnt + 1
 
                 end 
