@@ -23,10 +23,6 @@ end
 
 class MenuSubmenuConsola
 
-    #posible aplicacion a futuro
-    #Characters usuario
-    #Characters contraseña
-
     def main()
 
         print "MENU \n1. Ingresar \n2. Registrarse \n3. Olvido su usuario o contraseña? \n4. Salir: ";
