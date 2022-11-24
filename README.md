@@ -8,10 +8,6 @@ _Es un sistema en el cual se permitira la creacion de un test de N preguntas dep
 
 _Sistema operativo windows 10 u 11, debemos instalar ruby en "https://www.ruby-lang.org/es/"_
 
-```
-Da un ejemplo
-```
-
 ### Instalación
 
 _Para el correcto funcionamiento de conexion a base de datos requerimos realizar la siguiente instalación_
@@ -20,43 +16,8 @@ _Se realiza en consola_
 
 ```
 gem install pg
-```
-
-```
 gem install encripted_strings
 ```
-
-_Y repite_
-
-```
-hasta finalizar
-```
-
-_Finaliza con un ejemplo de cómo obtener datos del sistema o como usarlos para una pequeña demo_
-
-## Ejecutando las pruebas
-
-_Explica como ejecutar las pruebas automatizadas para este sistema_
-
-### Analice las pruebas end-to-end
-
-_Explica que verifican estas pruebas y por qué_
-
-```
-Da un ejemplo
-```
-
-### Y las pruebas de estilo de codificación
-
-_Explica que verifican estas pruebas y por qué_
-
-```
-Da un ejemplo
-```
-
-## Despliegue
-
-_Agrega notas adicionales sobre como hacer deploy_
 
 ## Construido con
 
