@@ -1,6 +1,6 @@
 # Simple survey system for depression (3SD)
 
-_Es un sistema en el cual se permitira la creacion de un test de N preguntas dependiendo de lo que considere correcto el profesional que esta a cargo de la encuesta en cuestion._
+_Es un sistema en el cual se permitira la creacion y el uso de un test de N preguntas dependiendo de lo que considere correcto el profesional que esta a cargo de la encuesta en cuestion._
 
 ## Funcionamiento local
 
