@@ -1,14 +1,14 @@
 require 'date'
 require 'PG'
 require 'encrypted_strings'
+require_relative 'connection.rb'
+
 begin
     require_relative "ekey"
     puts 'Usted ah accedido al sistema con permisos de administrador, bienvenido!'
 rescue Exception
     puts 'Usted ah ingresado al sistema con permisos publicos, bienvenido!'   
 end
-
-$cnxn = PG.connect(host: 'magallanes.inf.unap.cl', dbname: 'gpallero', user: 'gpallero',password: '')
 
 def imprimirsql(textosql)
     textosql = textosql.values[0]
