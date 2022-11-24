@@ -8,7 +8,7 @@ rescue Exception
     puts 'Usted ah ingresado al sistema con permisos publicos, bienvenido!'   
 end
 
-$cnxn = PG.connect(host: 'magallanes.inf.unap.cl', dbname: 'gpallero', user: 'gpallero',password: '4Fd3n2hSde')
+$cnxn = PG.connect(host: 'magallanes.inf.unap.cl', dbname: 'gpallero', user: 'gpallero',password: '')
 
 def imprimirsql(textosql)
     textosql = textosql.values[0]
